@@ -13,21 +13,24 @@ class Tokenizer {
     }
 
     tokenize() {
-        let tokenizedProgram = this.input.replace("\n", " ");
+        let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
+        console.log(tokenizedProgram);
+        tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
         console.log(tokenizedProgram);
 
-        for (const s of this.literals) {
-            tokenizedProgram = tokenizedProgram.replace(s , s);
+        for (const str of this.literals) {
+            const r = new RegExp(str,"g");
+            tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }
         console.log(tokenizedProgram);
 
-        tokenizedProgram = tokenizedProgram.replace("__", "_");
-
+        tokenizedProgram = tokenizedProgram.replace(/__/g, "_");
+        console.log(tokenizedProgram);
         if (tokenizedProgram.length > 0 && tokenizedProgram.charAt(0) === '_') {
             tokenizedProgram = tokenizedProgram.substring(1); // without first character
         }
-
-        let rawTokens = tokenizedProgram.split("_");
+        console.log(tokenizedProgram);
+        const rawTokens = tokenizedProgram.split("_");
 
         for (const token of rawTokens) {
             const tokenTrimmed = token.trim();
