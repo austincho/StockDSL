@@ -19,7 +19,7 @@ class Tokenizer {
         console.log(tokenizedProgram);
 
         for (const str of this.literals) {
-            const r = new RegExp(str,"g");
+            const r = new RegExp(" " + str + " ","g");
             tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }
         console.log(tokenizedProgram);
