@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-    state = {users: []}
+    constructor(props) {
+        super(props);
+        this.state={
+            users: [],
+            commandList:[],
+            newCommand:""
+        }
+    }
 
     componentDidMount() {
         fetch('/users')
@@ -10,10 +17,44 @@ class App extends Component {
             .then(users => this.setState({ users }));
     }
 
+    updateInput(key, value) {
+        this.setState({
+            [key]: value
+        });
+    }
+
+    handleCommand() {
+        this.addCommand();
+    }
+
+    addCommand() {
+        const command = this.state.newCommand.slice();
+        // copy current list of commands
+        const list = [...this.state.commandList];
+        list.push(command);
+
+        // update state of commandList and reset newCommand
+        this.setState({
+            commandList: list, newCommand: ""
+        });
+    }
+
     render() {
         return (
             <div className="App">
-            <h1>Users</h1>
+            <input
+                type="text"
+                placeholder="Please Enter a Command"
+                value={this.state.newCommand}
+                onChange={e => this.updateInput("newCommand", e.target.value)}
+            />
+            <button onClick={() => this.handleCommand()}>Enter</button>
+            <ul>
+                {this.state.commandList.map(command => {
+                    return(<div>{command}</div>)
+                })}
+            </ul>
+            <h1>Testing React fetching from Express</h1>
         {this.state.users.map(user =>
         <div key={user.id}>{user.username}</div>
         )}
