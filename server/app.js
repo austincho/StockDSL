@@ -6,8 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var networkclient = require('../networkclient/NetworkClient')
 var app = express();
+const port = 3000
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +28,8 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+app.get('/', (req, res) => res.send('Hello World!'))
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
