@@ -3,21 +3,18 @@ const CREATE = require("./CREATE")
 const ADDSTOCK = require("./ADDSTOCK")
 const REMOVESTOCK = require("./REMOVESTOCK")
 const COMPUTEINFO = require("./COMPUTEINFO")
-// const SHOWINFO = require("./SHOWINFO")
+const SHOWINFO = require("./SHOWINFO")
 
 
 class PROGRAM {
-    statements;
-
-    constructor() {
-        this.statements = [];
-    }
 
     getStatements() {
         return this.statements;
     }
 
     parse() {
+        this.statements = [];
+
         while (tokenizer.moreTokens()) {
             let s = null;
             if (tokenizer.checkToken("Create")) {

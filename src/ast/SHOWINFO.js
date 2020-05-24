@@ -1,13 +1,13 @@
 const STOCK = require("./STOCK")
 const PORTFOLIO = require("./PORTFOLIO")
+const VISUALIZATION = require("./VISUALIZATION")
 
-class CREATE {
-
-    constructor() {
-    }
+class SHOWINFO {
 
     parse() {
-        tokenizer.getAndCheckNext("Create");
+        this.visualization = null;
+
+        tokenizer.getAndCheckNext("Show");
 
         let item = null;
         if (tokenizer.checkToken("stock")) {
@@ -20,8 +20,14 @@ class CREATE {
             throw new Error("Unknown item: " + tokenizer.getNext());
         }
 
-        item.parse();
+        item.parse()
+
+        tokenizer.getAndCheckNext("as");
+
+        let visualize = new VISUALIZATION;
+        visualize.parse();
+        this.visualization = visualize.visualization;
     }
 }
 
-module.exports = CREATE
+module.exports = SHOWINFO

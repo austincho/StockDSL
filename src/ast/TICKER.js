@@ -1,12 +1,13 @@
 
-class TICKER extends STATEMENT {
-    ticker;
+class TICKER {
 
     setName(name) {
         this.ticker = name;
     }
 
     parse() {
+        this.ticker = "";
+
         this.setName(tokenizer.getAndCheckNext("[A-Z]+"));
     }
 }
