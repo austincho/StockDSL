@@ -9,19 +9,51 @@ router.get('/', function(req, res, next) {
 //first thing to implement this one enbales getting the stockID 
 router.get("/stock/:stockid", async(req,res) => {
   try{
-    let resp =  await client.getStock([req.params.stockid], functionParams.timeSeriesIntraDay, intervalValues.sixty );
-    res.json(resp)
+    let resp =  await client.getStock( functionParams.timeSeriesIntraDay, [req.params.stockid], intervalValues.sixty );
+    res.json(resp);
   }
   catch(err){
     console.log(err)
   }
+})
+
+// Currency Convestion
+// Ex. "/currencyConversion/USD/CAD"
+router.get("/currencyConversion/:from/:to", async(req, res) => {
+  try {
+    let resp = await client.getCurrencyConversion(functionParams.currencyExch, [req.params.from], [req.params.to])
+    res.json(resp);
+  }
+  catch(err) {
+    console.log(err);
+  }
+})
+
+// Return Time Series Information in Daily and Monthly Intervals
+// Ex. /graph/daily/AAPL
+// Ex. /graph/monthly/AAPL
+router.get("/graph/:time/:stockid/", async(req, res) =>  {
+  try {
+    let time = [req.params.time];
+    let timeFunctParam = "";
+    if (time == "daily") {
+      timeFunctParam = functionParams.timeSeriesDaily;
+    } else if (time == "monthly") {
+      timeFunctParam = functionParams.timeSeriesMonthly;
+    }
+    let resp = await client.getTimesSeries(timeFunctParam, [req.params.stockid]);
+    res.json(resp);
+  } catch (err) {
+    console.log(err);
+    }
 })
 module.exports = router;
 
 const functionParams = {
   timeSeriesIntraDay: "TIME_SERIES_INTRADAY&",
   currencyExch: "CURRENCY_EXCHANGE_RATE&",
-  timeSeriesDaily: "TIME_SERIES_DAILY&"
+  timeSeriesDaily: "TIME_SERIES_DAILY&",
+  timeSeriesMonthly: "TIME_SERIES_MONTHLY&"
 }
 // https://www.alphavantage.co/documentation/
 const intervalValues = {

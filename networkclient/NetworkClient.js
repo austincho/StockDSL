@@ -9,12 +9,22 @@ class networkClient{
         this.apikey = apikey
     }
 
-    getStock(ticker, funcParam, interval){
-        let url = this.baseURl + APIParameters.function + funcParam + APIParameters.symbol + ticker+ "&"+ APIParameters.interval + interval + APIParameters.apikey + this.apikey; 
-         return this.executeRequets(url)
+    getStock(functParam, ticker, interval){
+        let url = this.baseURl + APIParameters.function + functParam + APIParameters.symbol + ticker+ "&"+ APIParameters.interval + interval + APIParameters.apikey + this.apikey; 
+        return this.executeRequest(url)
     }
 
-    async executeRequets(requestUrl){
+    getCurrencyConversion(functParam, from, to){
+        let url = this.baseURl + APIParameters.function + functParam + APIParameters.fromcurrency + from + "&" + APIParameters.tocurrency + to + "&" + APIParameters.apikey + this.apikey;
+        return this.executeRequest(url);
+    }
+
+    getTimesSeries(functParam, ticker) {
+        let url = this.baseURl + APIParameters.function + functParam + APIParameters.symbol + ticker+ "&"+ APIParameters.apikey + this.apikey; 
+        return this.executeRequest(url);
+    }
+
+    async executeRequest(requestUrl){
         let response = await fetch(requestUrl); 
         if(response.ok){
             let json = await response.json(); 
@@ -30,5 +40,7 @@ const APIParameters = {
     symbol: "symbol=",
     datatype: "datatype=", 
     apikey: "apikey=",
-    interval: "interval="
-  }
+    interval: "interval=",
+    fromcurrency: "from_currency=",
+    tocurrency: "to_currency="
+}
