@@ -2,25 +2,27 @@ const STOCK = require("./STOCK")
 const PORTFOLIO = require("./PORTFOLIO")
 
 class CREATE {
-
-    constructor() {
-    }
-
     parse() {
         tokenizer.getAndCheckNext("Create");
 
-        let item = null;
+        this.item = null;
         if (tokenizer.checkToken("stock")) {
             tokenizer.getAndCheckNext("stock")
-            item = new STOCK();
+            this.item = new STOCK();
         } else if (tokenizer.checkToken("portfolio")) {
             tokenizer.getAndCheckNext("portfolio")
-            item = new PORTFOLIO();
+            this.item = new PORTFOLIO();
         } else {
             throw new Error("Unknown item: " + tokenizer.getNext());
         }
 
-        item.parse();
+        this.item.parse();
+    }
+
+    evaluate() {
+        if (typeof this.item !== 'undefined') {
+            this.item.evaluate();
+        }
     }
 }
 

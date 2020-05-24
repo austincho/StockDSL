@@ -1,13 +1,17 @@
-const PORTFOLIOTAG = require("../ast/PORTFOLIOTAG")
-
 class PORTFOLIO {
-
     parse() {
-        this.portfolioTag = null;
+        this.portfolioTag = tokenizer.getAndCheckNextRegExp(/[a-z]+/ig);
+    }
 
-        let pTag = new PORTFOLIOTAG();
-        pTag.parse();
-        this.portfolioTag = pTag.portfolioTag;
+    evaluate() {
+        if (typeof this.portfolioTag !== 'undefined') {
+            if (!(this.portfolioTag in portfolioSymbolTable)) {
+                portfolioSymbolTable[this.portfolioTag] = [];
+            }
+            else {
+                throw "Portfolio already exists";
+            }
+        }
     }
 }
 
