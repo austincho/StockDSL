@@ -33,8 +33,14 @@ class PROGRAM {
             s.parse();
             this.getStatements().push(s);
         }
-        console.log("Statements: ")
-        console.info(this.getStatements());
+    }
+
+    evaluate() {
+        if (typeof this.statements !== 'undefined' && Array.isArray(this.statements)) {
+            for (let s of this.statements) {
+                s.evaluate();
+            }
+        }
     }
 }
 
