@@ -1,9 +1,10 @@
 const PORTFOLIOTAG = require("../ast/PORTFOLIOTAG")
 
 class PORTFOLIO {
-    portfolioTag;
 
     parse() {
+        this.portfolioTag = null;
+
         let pTag = new PORTFOLIOTAG();
         pTag.parse();
         this.portfolioTag = pTag.portfolioTag;

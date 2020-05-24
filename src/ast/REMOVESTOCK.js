@@ -1,16 +1,26 @@
 
 class REMOVESTOCK {
-    tickers = [];
 
     parse() {
+        this.tickers = [];
+        this.portfolio = null;
+
         tokenizer.getAndCheckNext("remove");
         tokenizer.getAndCheckNext("{")
 
-        // TODO: to remove tickers - global storage
-        this.tickers.push(tokenizer.getNext());
-        tokenizer.getAndCheckNext("}")
-        tokenizer.getAndCheckNext("portfolio");
+        while (!tokenizer.checkToken("}")) {
+            this.tickers.push(tokenizer.getNext());
+            if (tokenizer.checkToken(",")) {
+                tokenizer.getAndCheckNext(",");
+            }
+        }
 
-        // TODO: associate tickers with portfolio - global storage
+        tokenizer.getAndCheckNext("}")
+
+        this.portfolio = tokenizer.getNext();
+        console.log("Tickers: " + this.tickers);
+        console.log("Portfolio: " + this.portfolio);
     }
 }
+
+module.exports = REMOVESTOCK
