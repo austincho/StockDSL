@@ -9,12 +9,13 @@ class Tokenizer {
     initialize(input, literalsList) {
         this.input = input;
         this.literals = literalsList;
+        this.currentToken = 0;
+        this.tokens = [];
         this.tokenize();
     }
 
     tokenize() {
         let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
-        console.log(tokenizedProgram);
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
         console.log(tokenizedProgram);
 
@@ -64,15 +65,23 @@ class Tokenizer {
         return token;
     }
 
-    checkToken(regExp) {
+    checkToken(str) {
         let s = this.checkNext();
-        return s === regExp;
+        return s === str;
     }
 
-    getAndCheckNext(regExp) {
+    getAndCheckNext(str) {
         let s = this.getNext();
-        if (s !== regExp) {
-            //throw "Unexpected next token for Parsing! Expected something matching: " + regExp + " but got: " + s;
+        if (s !== str) {
+            throw "Unexpected next token for Parsing! Expected something matching: " + str + " but got: " + s;
+        }
+        return s;
+    }
+
+    getAndCheckNextRegExp(regExp) {
+        let s = this.getNext();
+        if (!s.match(regExp)) {
+            throw "Unexpected next token for Parsing! Expected something matching: " + regExp + " but got: " + s;
         }
         return s;
     }
