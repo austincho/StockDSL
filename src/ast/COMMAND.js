@@ -13,6 +13,15 @@ class COMMAND {
             this.futureval.parse();
         }
     }
+
+    async evaluate() {
+        if (this.currency != null) {
+            await this.currency.evaluate();
+        }
+        else if (this.futureval != null) {
+            this.futureval.evaluate();
+        }
+    }
 }
 
 module.exports = COMMAND

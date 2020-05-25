@@ -8,6 +8,39 @@ class FUTUREVAL {
         tokenizer.getAndCheckNext("Interest");
         this.interest = tokenizer.getNext();
     }
+
+    evaluate() {
+        this.computeFutureValue(this.name, this.months, this.interest);
+    }
+
+    computeFutureValue(ticker, months, rate) {
+        // mock stock data
+        const tickers = [
+            {
+                "ticker": "AAPL",
+                "quantity": 20,
+                "price": 300.12
+            },
+            {
+                "ticker": "TSLA",
+                "quantity": 5,
+                "price": 823.05
+            },
+            {
+                "ticker": "MSFT",
+                "quantity": 10,
+                "price": 183.51
+            }
+        ];
+
+        const stock = tickers.find(x => x.ticker === ticker);
+        if (!!stock) {
+            let value = stock.quantity*stock.price * (1 + (rate*.01*(months/12)));
+            writeStream.write(JSON.stringify(Math.floor(value * 100) / 100, null, "\t"));
+            return Math.floor(value * 100) / 100;
+        }
+        return -1; // some sort of error here
+    }
 }
 
 module.exports = FUTUREVAL

@@ -1,10 +1,12 @@
 const Tokenizer = require("./src/libs/Tokenizer")
 const PROGRAM = require("./src/ast/PROGRAM")
 
-const input = "Create portfolio myPortfolio\n" +
-    "Add {  AAPL, GGOOGL, DIST  } myPortfolio\n" +
-    "Remove { AAPL, GGOOGL, DIST } myPortfolio\n" +
-    "Show stock APPL as BAR";
+// const input = "Create portfolio myPortfolio\n" +
+//     "Add {  AAPL, GGOOGL, DIST  } myPortfolio\n" +
+//     "Remove { AAPL, GGOOGL, DIST } myPortfolio\n" +
+//     "Show stock APPL as BAR";
+//const input = "Compute Currency CAD";
+const input = "Compute on TSLA Months 5 Interest 15";
 //const input = "Add { AAPL } portfolio myportfolio";
 //const input = "Create portfolio myportfolio";
 //const input = "Add AAPL Alert true Buy 100 Sell 1000 portfolio MyPortfolio";
@@ -23,4 +25,11 @@ console.log("tokenizing complete");
 
 let p = new PROGRAM();
 p.parse();
-console.log("parsing complete")
+console.log("parsing complete");
+
+p.evaluate().then(result => {
+    // got final result
+    console.log("evaluation complete");
+}).catch(err => {
+    // got error
+});

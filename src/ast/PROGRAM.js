@@ -36,6 +36,13 @@ class PROGRAM {
         console.log("Statements: ")
         console.info(this.getStatements());
     }
+
+    async evaluate() {
+        let statement;
+        for (statement of this.getStatements()) {
+            await statement.evaluate();
+        }
+    }
 }
 
 module.exports = PROGRAM

@@ -1,0 +1,24 @@
+{
+  "name": "StockDSL",
+  "version": "1.0.0",
+  "description": "- cd client\r - npm start",
+  "main": "main.js",
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/austincho/StockDSL.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/austincho/StockDSL/issues"
+  },
+  "homepage": "https://github.com/austincho/StockDSL#readme"
+}
