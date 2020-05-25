@@ -19,7 +19,7 @@ class COMMAND {
             await this.currency.evaluate();
         }
         else if (this.futureval != null) {
-            this.futureval.evaluate();
+            await this.futureval.evaluate();
         }
     }
 }

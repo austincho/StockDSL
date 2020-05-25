@@ -9,8 +9,8 @@ class FUTUREVAL {
         this.interest = tokenizer.getNext();
     }
 
-    evaluate() {
-        this.computeFutureValue(this.name, this.months, this.interest);
+    async evaluate() {
+        await this.computeFutureValue(this.name, this.months, this.interest);
     }
 
     computeFutureValue(ticker, months, rate) {
@@ -36,7 +36,11 @@ class FUTUREVAL {
         const stock = tickers.find(x => x.ticker === ticker);
         if (!!stock) {
             let value = stock.quantity*stock.price * (1 + (rate*.01*(months/12)));
-            writeStream.write(JSON.stringify(Math.floor(value * 100) / 100, null, "\t"));
+            value = Math.floor(value * 100) / 100;
+            let valueString = {
+                "futureValue": value
+            };
+            writeStream.write(JSON.stringify(valueString, null, "\t"));
             return Math.floor(value * 100) / 100;
         }
         return -1; // some sort of error here

@@ -1,11 +1,15 @@
-
+const visualTypes = ["BAR", "PIE", "TEXT", "TIME", "CANDLESTICK"]
 
 class VISUALIZATION {
-
     parse() {
         this.visualization = null;
 
-        this.visualization = tokenizer.getAndCheckNext("(BAR)|(PIE)|(TEXT)|(TIME)|(CANDLESTICK)");
+        for (const type of visualTypes) {
+            if (tokenizer.checkToken(type)) {
+                this.visualization = tokenizer.getNext();
+            }
+        }
+
     }
 }
 
