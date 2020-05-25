@@ -35,10 +35,14 @@ class PROGRAM {
         }
     }
 
-    evaluate() {
+    async evaluate() {
         if (typeof this.statements !== 'undefined' && Array.isArray(this.statements)) {
             for (let s of this.statements) {
-                s.evaluate();
+                await s.evaluate();
+                if (await this.statements.indexOf(s) !== this.statements.length - 1 &&
+                    (s.constructor.name === "SHOWINFO" || s.constructor.name === "COMPUTEINFO")) {
+                  await writeStream.write(",\n");
+                }
             }
         }
     }
