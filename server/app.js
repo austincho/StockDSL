@@ -3,12 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+cors = require("cors");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var literalsRouter = require('./routes/literals');
+var tokenizeRouter = require('./routes/tokenize');
 var networkclient = require('../networkclient/NetworkClient')
 var app = express();
-const port = 3000
+const port = 3000;
 
 
 // view engine setup
@@ -20,9 +23,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/literals', literalsRouter);
+app.use('/tokenize', tokenizeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
