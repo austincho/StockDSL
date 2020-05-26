@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
+import AppBody from "./components/appBody";
+import 'typeface-roboto';
 
 class App extends Component {
+
     constructor(props) {
         super(props);
         this.state={
             users: [],
+            literals: [],
             commandList:[],
-            newCommand:""
+            newCommand:"",
+            outputString: ""
+
         }
     }
 
@@ -15,6 +21,9 @@ class App extends Component {
         fetch('/users')
             .then(res => res.json())
             .then(users => this.setState({ users }));
+        fetch('/literals')
+            .then(res => res.json())
+            .then(literals => this.setState({ literals }));
     }
 
     updateInput(key, value) {
@@ -23,42 +32,18 @@ class App extends Component {
         });
     }
 
-    handleCommand() {
-        this.addCommand();
-    }
-
-    addCommand() {
-        const command = this.state.newCommand.slice();
-        // copy current list of commands
-        const list = [...this.state.commandList];
-        list.push(command);
-
-        // update state of commandList and reset newCommand
-        this.setState({
-            commandList: list, newCommand: ""
-        });
-    }
-
     render() {
         return (
             <div className="App">
-            <input
-                type="text"
-                placeholder="Please Enter a Command"
-                value={this.state.newCommand}
-                onChange={e => this.updateInput("newCommand", e.target.value)}
-            />
-            <button onClick={() => this.handleCommand()}>Enter</button>
-            <ul>
-                {this.state.commandList.map(command => {
-                    return(<div>{command}</div>)
-                })}
-            </ul>
-            <h1>Testing React fetching from Express</h1>
-        {this.state.users.map(user =>
-        <div key={user.id}>{user.username}</div>
-        )}
-    </div>
+                <h1>STOCK DSL</h1>
+                <AppBody/>
+                <h1>Testing React fetching from Express</h1>
+                {this.state.users.map(user =>
+                <div key={user.id}>{user.username}</div>
+                )}
+                {this.state.literals.map((literal, index) =>
+                    <div key={index}> {literal} </div>)}
+            </div>
     );
     }
 }
