@@ -39,6 +39,10 @@ class ADDSTOCK {
                 }
             }
             portfolioSymbolTable[this.portfolio] = portfolioTickers;
+            return {command: "Add", stocks: portfolioTickers, portfolio: this.portfolio}
+        }
+        else {
+            throw "Portfolio is undefined"
         }
     }
 }

@@ -7,6 +7,7 @@ class VISUALIZATION {
         for (const type of visualTypes) {
             if (tokenizer.checkToken(type)) {
                 this.visualization = tokenizer.getNext();
+                break;
             }
         }
 

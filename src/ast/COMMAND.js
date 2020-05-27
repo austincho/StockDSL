@@ -15,11 +15,14 @@ class COMMAND {
     }
 
     async evaluate() {
-        if (this.currency != null) {
-            await this.currency.evaluate();
+        if (typeof this.currency !== 'undefined') {
+            return await this.currency.evaluate();
         }
-        else if (this.futureval != null) {
-            await this.futureval.evaluate();
+        else if (typeof this.futureval !== 'undefined') {
+            return await this.futureval.evaluate();
+        }
+        else {
+            throw "Invalid command"
         }
     }
 }

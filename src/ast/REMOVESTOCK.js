@@ -41,6 +41,10 @@ class REMOVESTOCK {
                 }
             }
             portfolioSymbolTable[this.portfolio] = portfolioTickers;
+            return {command: "Remove", stocks: portfolioTickers, portfolio: this.portfolio}
+        }
+        else {
+            throw "Portfolio is undefined"
         }
     }
 }
