@@ -12,10 +12,10 @@ class ASTTests {
         //this.test("Create stock AAPL Alert true Buy 10.7 Sell 20.5");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio Remove { AAPL } myportfolio Add { AAPL } myportfolio");
-        //this.test("Create stock AAPL Compute on AAPL Months 12 Interest 1.1");
+        //this.test("Create stock AAPL Compute on AAPL Quantity 20 Months 12 Interest 1.1");
         //this.test("Create stock AAPL Show stock AAPL as BAR");
         //this.test("Compute Currency CAD");
-        //this.test("Compute on TSLA Months 5 Interest 15");
+        //this.test("Compute on TSLA Quantity 30 Months 5 Interest 15");
         // this.test("Create portfolio myPortfolio\n" +
         //     "Create stock GGOOGL\n" +
         //     "Add { GGOOGL } myPortfolio\n" +

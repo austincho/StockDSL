@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import AppBody from "./components/appBody";
 import 'typeface-roboto';
+import CommandInput from "./components/commandInput";
 
 class App extends Component {
 
@@ -9,7 +9,6 @@ class App extends Component {
         super(props);
         this.state={
             users: [],
-            literals: [],
             commandList:[],
             newCommand:"",
             outputString: ""
@@ -21,9 +20,6 @@ class App extends Component {
         fetch('/users')
             .then(res => res.json())
             .then(users => this.setState({ users }));
-        fetch('/literals')
-            .then(res => res.json())
-            .then(literals => this.setState({ literals }));
     }
 
     updateInput(key, value) {
@@ -36,13 +32,11 @@ class App extends Component {
         return (
             <div className="App">
                 <h1>STOCK DSL</h1>
-                <AppBody/>
+                <CommandInput/>
                 <h1>Testing React fetching from Express</h1>
                 {this.state.users.map(user =>
                 <div key={user.id}>{user.username}</div>
                 )}
-                {this.state.literals.map((literal, index) =>
-                    <div key={index}> {literal} </div>)}
             </div>
     );
     }
