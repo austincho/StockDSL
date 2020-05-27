@@ -11,11 +11,13 @@ class Column extends Component {
     constructor(props) {
         super(props);
         this.state={
-            toCurrency: ''
+            toCurrency: '', 
+            exchangeRate: props.exchangeRate
         }
     }
 
     render() {
+        console.log(this.state)
         return (
             <Grid item xs={4}>
                 <Grid container direction="column" spacing={2}>
@@ -36,7 +38,7 @@ class Column extends Component {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                    <Portfolio id="user1"/>
+                                    <Portfolio id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
                         </Card>

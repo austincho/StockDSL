@@ -6,8 +6,8 @@ class Portfolio extends Component {
         super(props)
         this.state = {
             stocks: [],
-            id: props.id
-            
+            id: props.id, 
+            multiplier: props.multiplier
         }    
     }
     componentDidMount() {
@@ -69,7 +69,8 @@ class Portfolio extends Component {
             <tbody>
               {
                 stocks.map((value, index) => {
-                      return (<Stock   key={index} cond={"green"} name={value.id} price={value.value} />)
+                    console.log(this.state)
+                      return (<Stock   key={index} cond={"green"} name={value.id} price={value.value * this.state.multiplier} />)
                     
                   
                 })

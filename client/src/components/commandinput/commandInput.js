@@ -24,7 +24,7 @@ class CommandInput extends Component {
             showError: false,
             currency: 'USD',
             toCurrency: '',
-            exchangeRate: 1,
+            exchangeRate: 1.00,
             futureVal: null
         }
     }
@@ -100,6 +100,7 @@ class CommandInput extends Component {
     }
 
     render() {
+        
         return (
             <div className="margins">
                 <Grid container spacing={3}>
@@ -154,7 +155,7 @@ class CommandInput extends Component {
                             </ul>
                         </Grid>
                     </Grid>
-                    <Column currency={this.state.currency}/>
+                    <Column exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
                 </Grid>
             </div>
         );
