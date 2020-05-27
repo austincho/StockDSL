@@ -1,11 +1,9 @@
 const STOCK = require("./STOCK")
 const PORTFOLIO = require("./PORTFOLIO")
-const VISUALIZATION = require("./VISUALIZATION")
 
-class SHOWINFO {
-
+class DELETE {
     parse() {
-        tokenizer.getAndCheckNext("Show");
+        tokenizer.getAndCheckNext("Delete");
 
         if (tokenizer.checkToken("stock")) {
             tokenizer.getAndCheckNext("stock")
@@ -18,42 +16,45 @@ class SHOWINFO {
         } else {
             throw "Unknown item: " + tokenizer.getNext();
         }
-
-        tokenizer.getAndCheckNext("as");
-
-        let visualize = new VISUALIZATION;
-        visualize.parse();
-        this.visualization = visualize.visualization;
     }
 
-    async evaluate() {
+    evaluate() {
         if (typeof this.stock !== 'undefined') {
             const ticker = this.stock.getName();
             if (!(ticker in stockSymbolTable)) {
-                throw "Cannot visualize nonexistent ticker: " + ticker;
+                throw "Cannot delete nonexistent ticker: " + ticker;
             }
             else {
+                // Remove stock from all portfolios
+                for (const portfolio in portfolioSymbolTable) {
+                    const index = portfolioSymbolTable[portfolio].indexOf(ticker);
+                    if (index > -1) {
+                        portfolioSymbolTable[portfolio].splice(index, 1);
+                    }
+                }
+                // Remove stock
+                delete stockSymbolTable[ticker]
+
                 const type = "Stock"
                 return {
-                    command: "Show",
+                    command: "Delete",
                     type: type,
-                    name: ticker,
-                    visualType: this.visualization
+                    name: ticker
                 }
             }
         }
         else if (typeof this.portfolio !== 'undefined') {
             const name = this.portfolio.getName();
             if (!(name in portfolioSymbolTable)) {
-                throw "Cannot visualize nonexistent portfolio: " + name;
+                throw "Cannot delete nonexistent portfolio: " + name;
             }
             else {
+                portfolioSymbolTable.delete(name);
                 const type = "Portfolio"
                 return {
-                    command: "Show",
+                    command: "Delete",
                     type: type,
-                    name: name,
-                    visualType: this.visualization
+                    name: name
                 }
             }
         }
@@ -63,4 +64,4 @@ class SHOWINFO {
     }
 }
 
-module.exports = SHOWINFO
+module.exports = DELETE

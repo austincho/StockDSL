@@ -11,7 +11,6 @@ class Descriptor {
 
         try {
             tokenizer.initialize(input);
-            console.log("tokenizing complete");
         }
         catch(err) {
             this.results = [{error: err}]

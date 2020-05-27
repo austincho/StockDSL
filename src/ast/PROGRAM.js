@@ -1,5 +1,6 @@
 const Node = require("../libs/Node")
 const CREATE = require("./CREATE")
+const DELETE = require("./DELETE")
 const ADDSTOCK = require("./ADDSTOCK")
 const REMOVESTOCK = require("./REMOVESTOCK")
 const COMPUTEINFO = require("./COMPUTEINFO")
@@ -15,9 +16,7 @@ class PROGRAM {
     async start() {
         try {
             this.parse()
-            console.log("parsing complete");
             const ret = await this.evaluate();
-            console.log("evaluating complete")
             return ret;
         }
         catch(err) {
@@ -32,6 +31,9 @@ class PROGRAM {
             let s = null;
             if (tokenizer.checkToken("Create")) {
                 s = new CREATE();
+            }
+            else if (tokenizer.checkToken("Delete")) {
+                s = new DELETE();
             } else if (tokenizer.checkToken("Add")) {
                 s = new ADDSTOCK();
             } else if (tokenizer.checkToken("Remove")) {
@@ -59,7 +61,6 @@ class PROGRAM {
                 }
             }
         }
-        console.log(results)
         return results
     }
 }
