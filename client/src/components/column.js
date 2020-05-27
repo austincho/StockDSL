@@ -11,7 +11,7 @@ class Column extends Component {
     constructor(props) {
         super(props);
         this.state={
-            currency: ''
+            toCurrency: ''
         }
     }
 
@@ -26,7 +26,7 @@ class Column extends Component {
                                     Currency
                                 </Typography>
                                 <Typography variant="body2" component="p">
-                                    USD
+                                    {this.props.currency}
                                 </Typography>
                             </CardContent>
                         </Card>
