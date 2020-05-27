@@ -5,8 +5,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-const axios = require('axios');
-const fetch = require('node-fetch');
 
 class CommandInput extends Component {
 
@@ -32,57 +30,20 @@ class CommandInput extends Component {
     }
 
     callTokenizer() {
-        var url ='http://localhost:3000/tokenize';
-        var headers = {
-            "Content-Type": "text/plain"
-        };
-        var data = this.state.newCommand;
-        fetch(url, { method: 'POST', headers: headers, body: data})
-            .then((res) => {
-                return res.json()
+        fetch('/tokenize', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({command: this.state.newCommand})
+        })
+            .then(res => {
+                console.log("RESULT", res);
+                return res;
             })
-            .then((json) => {
-                console.log(json);
-                // Do something with the returned data.
-            });
-        // axios.put(
-        //         "http://localhost:3000/tokenize",
-        //         this.state.newCommand,
-        //         {headers: {"Content-Type": "text/plain"}}
-        //     )
-        //     .then(r => console.log(r))
-        //     .catch(e => console.log(e));
-
+            .then(output => this.setState({output}))
+            .catch(e => console.log("error: ", e));
     }
-    /*
-    * var url ='https://example.com';
-var headers = {
-  "Content-Type": "application/json",
-  "client_id": "1001125",
-  "client_secret": "876JHG76UKFJYGVHf867rFUTFGHCJ8JHV"
-}
-var data = {
-  "name": "Wade Wilson",
-  "occupation": "Murderer",
-  "age": "30 (forever)"
-}
-fetch(url, { method: 'POST', headers: headers, body: data})
-  .then((res) => {
-     return res.json()
-})
-.then((json) => {
-  console.log(json);
-  // Do something with the returned data.
-});*/
-
-        // callTokenizer() {
-        // List<String> literals = Arrays.asList("def", "set", "print", "new", ",", "{", "}", "call", "return", "(", ")");
-        // Tokenizer.makeTokenizer("input.tvar",literals);
-        // PROGRAM p = new PROGRAM();
-        // p.parse();
-        // p.evaluate(symbolTable);
-        // System.out.println("completed successfully");
-        // System.out.println(symbolTable);
 
     addCommand() {
         const command = this.state.newCommand.slice();

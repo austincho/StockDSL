@@ -20,7 +20,7 @@ class ASTTests {
         // this.test("Create portfolio myPortfolio\n" +
         //     "Create stock GGOOGL\n" +
         //     "Add { GGOOGL } myPortfolio\n" +
-        //     "Compute Currency CAD\n" +
+        //     "Compute Curency CAD\n" +
         //     "Show stock GGOOGL as BAR");
         this.test("Create stock APPL Create portfolio myPortfolio Add { APPL } myPortfolio Compute Currency CAD Show stock APPL as BAR");
 
