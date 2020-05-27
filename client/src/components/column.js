@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './commandInput.css';
+import './commandinput/commandInput.css';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
+import Portfolio from './portfolio'
 
 class Column extends Component {
 
@@ -34,6 +34,7 @@ class Column extends Component {
                     <Grid item xs={12}>
                         <Card>
                             <CardContent>
+                                <Portfolio/>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
                                 </Typography>

@@ -7,11 +7,11 @@ cors = require("cors");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var literalsRouter = require('./routes/literals');
+//var literalsRouter = require('./routes/literals');
 var tokenizeRouter = require('./routes/tokenize');
 var networkclient = require('../networkclient/NetworkClient')
 var app = express();
-const port = 3000;
+const port = 3001;
 
 
 // view engine setup
@@ -27,7 +27,7 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/literals', literalsRouter);
+//app.use('/literals', literalsRouter);
 app.use('/tokenize', tokenizeRouter);
 
 // catch 404 and forward to error handler

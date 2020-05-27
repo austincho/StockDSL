@@ -59,6 +59,7 @@ class PROGRAM {
                 }
             }
         }
+        console.log(results)
         return results
     }
 }

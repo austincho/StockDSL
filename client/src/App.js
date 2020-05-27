@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'typeface-roboto';
-import CommandInput from "./components/commandInput";
+import CommandInput from "./components/commandinput/commandInput";
 
 class App extends Component {
 
