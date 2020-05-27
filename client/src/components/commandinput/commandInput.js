@@ -16,6 +16,7 @@ class CommandInput extends Component {
     constructor(props) {
         super(props);
         this.state={
+            id: props.id, 
             commandList:[],
             newCommand:'',
             output: '',
@@ -64,6 +65,7 @@ class CommandInput extends Component {
                 console.log(this.state.errorText);
             });
     }
+
 
     handleOutput(output) {
         if (Array.isArray(output) && output.length>0) {

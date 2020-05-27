@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Portfolio from './portfolio'
+import Portfolio from './portfolio/portfolio'
 
 class Column extends Component {
 
@@ -34,12 +34,9 @@ class Column extends Component {
                     <Grid item xs={12}>
                         <Card>
                             <CardContent>
-                                <Portfolio/>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                </Typography>
-                                <Typography variant="body2" component="p">
-                                    Hello
+                                    <Portfolio id="user1"/>
                                 </Typography>
                             </CardContent>
                         </Card>

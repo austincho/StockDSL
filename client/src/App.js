@@ -32,7 +32,7 @@ class App extends Component {
         return (
             <div className="App">
                 <h1>STOCK DSL</h1>
-                <CommandInput/>
+                <CommandInput id="user1"/>
                 <h1>Testing React fetching from Express</h1>
                 {this.state.users.map(user =>
                 <div key={user.id}>{user.username}</div>

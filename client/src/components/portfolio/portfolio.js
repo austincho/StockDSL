@@ -1,12 +1,12 @@
 import React, { Component } from 'react'; 
-import Stock from './stocks/Stock'
-
+import Stock from '../stocks/Stock'
+import './portfolio.css'
 class Portfolio extends Component { 
     constructor(props){
         super(props)
         this.state = {
-            stocks: [{"companyid": "AAPL", "value": 100}],
-            id: "p1"
+            stocks: [],
+            id: props.id
             
         }    
     }
@@ -15,31 +15,43 @@ class Portfolio extends Component {
     }
     getPortfolioInfo(){
         let self = this
-        let stocklist = []
-        fetch('/portfolio/' + this.state.id, {
+        var stocklist = []
+        fetch('/users/' + this.state.id + '/portfolio', {
             method: 'get', 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json", 
+                'Accept': 'application/json',
+
             }
         })
         .then(res => {
             console.log("RESULT", res); 
-            if(res.status != 200){
+            if(res.status !== 200){
                 return null; 
             }
-            return res; 
+            else {
+                return res.json(); 
+            }
+            
         })
-        .then((json) => {
-            console.log(json);
-            if(json == null){
+        .then(res2 => {
+            console.log(res2)
+            res2 = res2[0]
+            if(res2 === null){
                 //handle no stocks found
+                console.log("no stocks foudn"); 
                 return; 
             } 
-            json.stocks.forEach(element => {
-                stocklist.push(element)
-            });
+            for(let i = 0; i<res2.stocks.length; i++){
+                stocklist.push(res2.stocks[i])
+            }
+            console.log(stocklist)
             self.setState({stocks: stocklist})
-        })
+        }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
     }
 
     render() {
@@ -52,13 +64,12 @@ class Portfolio extends Component {
                 <th>CompanyID</th>
                 <th>Price</th>
                 <th>Shares</th>
-                <input className="search" onChange={this.handleChange}></input>
               </tr>
             </thead>
             <tbody>
               {
                 stocks.map((value, index) => {
-                      return (<Stock   key={index} cond={"green"} name={value.companyid} price={value.value} />)
+                      return (<Stock   key={index} cond={"green"} name={value.id} price={value.value} />)
                     
                   
                 })
