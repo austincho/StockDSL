@@ -7,22 +7,16 @@ class SHOWINFO {
     parse() {
         tokenizer.getAndCheckNext("Show");
 
-        let item = null;
         if (tokenizer.checkToken("stock")) {
             tokenizer.getAndCheckNext("stock")
-            item = new STOCK();
+            this.stock = new STOCK();
+            this.stock.parse();
         } else if (tokenizer.checkToken("portfolio")) {
             tokenizer.getAndCheckNext("portfolio")
-            item = new PORTFOLIO();
+            this.portfolio = new PORTFOLIO();
+            this.portfolio.parse();
         } else {
-            throw new Error("Unknown item: " + tokenizer.getNext());
-        }
-
-        item.parse();
-        if (item.ticker !== null) {
-            this.ticker = item.ticker;
-        } else if (item.portfolioTag !== null) {
-            this.portfolioTag = item.portfolioTag;
+            throw "Unknown item: " + tokenizer.getNext();
         }
 
         tokenizer.getAndCheckNext("as");
@@ -33,35 +27,38 @@ class SHOWINFO {
     }
 
     async evaluate() {
-        let type = ""
-        let name = ""
-        if (typeof this.ticker !== 'undefined') {
-            if (!(this.ticker in stockSymbolTable)) {
-                throw "Cannot visualize nonexistent ticker: " + this.ticker;
+        if (typeof this.stock !== 'undefined') {
+            const ticker = this.stock.getName();
+            if (!(ticker in stockSymbolTable)) {
+                throw "Cannot visualize nonexistent ticker: " + ticker;
             }
             else {
-                type = "Stock"
-                name = this.ticker
+                const type = "Stock"
+                return {
+                    command: "Show",
+                    type: type,
+                    name: ticker,
+                    visualType: this.visualization
+                }
             }
         }
-        else if (typeof this.portfolioTag !== 'undefined') {
-            if (!(this.portfolioTag in portfolioSymbolTable)) {
-                throw "Cannot visualize nonexistent portfolio: " + this.portfolioTag;
+        else if (typeof this.portfolio !== 'undefined') {
+            const name = this.portfolio.getName();
+            if (!(name in portfolioSymbolTable)) {
+                throw "Cannot visualize nonexistent portfolio: " + name;
             }
             else {
-                type = "Portfolio"
-                name = this.portfolioTag
+                const type = "Portfolio"
+                return {
+                    command: "Show",
+                    type: type,
+                    name: name,
+                    visualType: this.visualization
+                }
             }
         }
         else {
             throw "Invalid item"
-        }
-
-        return {
-            command: "Show",
-            type: type,
-            name: name,
-            visualType: this.visualization
         }
     }
 }

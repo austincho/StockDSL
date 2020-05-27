@@ -8,7 +8,7 @@ class COMMAND {
             this.currency = new CURRENCY();
             this.currency.parse();
         }
-        else if (tokenizer.checkToken("on")) {
+        else if (tokenizer.checkToken("stock") || tokenizer.checkToken("portfolio")) {
             this.futureval = new FUTUREVAL();
             this.futureval.parse();
         }
