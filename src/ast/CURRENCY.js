@@ -8,7 +8,7 @@ class CURRENCY {
     }
 
     async evaluate() {
-        await this.computeCurrencyExchange(this.currency);
+        return await this.computeCurrencyExchange(this.currency);
     }
 
     async computeCurrencyExchange(toCurrency) {
@@ -16,17 +16,22 @@ class CURRENCY {
         const url = "https://api.exchangeratesapi.io/latest?base=" + fromCurrency + "&symbols=" + toCurrency;
         try {
             let currencyResponse = await axios.get(url);
-            console.log(currencyResponse.data);
-            writeStream.write(JSON.stringify(currencyResponse.data, null, "\t"));
-            return currencyResponse.data.rates[toCurrency];
+
+            return {
+                command: "Compute",
+                type: "Currency",
+                from: fromCurrency,
+                to: toCurrency,
+                exchange: currencyResponse.data["rates"][toCurrency]
+            }
         } catch (e) {
             // some sort of error handling
             if (e.response.status === 400){
-                console.log("Please ensure that the given currency symbol is valid.");
+                throw "Please ensure that the given currency symbol is valid."
             } else if (e.response.status === 500) {
-                console.log("A network error has occurred, please check your network settings.")
+                throw "A network error has occurred, please check your network settings."
             } else {
-                console.log("Error getting currency exchange rate.");
+                throw "Error getting currency exchange rate."
             }
         }
     }

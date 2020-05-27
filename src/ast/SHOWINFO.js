@@ -33,20 +33,36 @@ class SHOWINFO {
     }
 
     async evaluate() {
-        if (!(this.ticker in stockSymbolTable) && !(this.portfolioTag in portfolioSymbolTable)) {
-            if (this.ticker !== null) {
-                throw new Error("Cannot visualize nonexistent ticker: " + this.ticker);
-            } else if (this.portfolioTag !== null) {
-                throw new Error("Cannot visualize nonexistent portfolio: " + this.portfolioTag);
+        let type = ""
+        let name = ""
+        if (typeof this.ticker !== 'undefined') {
+            if (!(this.ticker in stockSymbolTable)) {
+                throw "Cannot visualize nonexistent ticker: " + this.ticker;
+            }
+            else {
+                type = "Stock"
+                name = this.ticker
             }
         }
-
-        let visualType = {
-            "visualType": this.visualization
+        else if (typeof this.portfolioTag !== 'undefined') {
+            if (!(this.portfolioTag in portfolioSymbolTable)) {
+                throw "Cannot visualize nonexistent portfolio: " + this.portfolioTag;
+            }
+            else {
+                type = "Portfolio"
+                name = this.portfolioTag
+            }
         }
-        console.log("evaluating " + this.visualization);
-        await writeStream.write(JSON.stringify(visualType, null, "\t"));
-        console.log("evaluated " + this.visualization);
+        else {
+            throw "Invalid item"
+        }
+
+        return {
+            command: "Show",
+            type: type,
+            name: name,
+            visualType: this.visualization
+        }
     }
 }
 

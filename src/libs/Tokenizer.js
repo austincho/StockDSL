@@ -1,14 +1,12 @@
 class Tokenizer {
     constructor() {
         this.input = "";
-        this.literals = "";
         this.tokens = [];
         this.currentToken = 0;
     }
 
-    initialize(input, literalsList) {
+    initialize(input) {
         this.input = input;
-        this.literals = literalsList;
         this.currentToken = 0;
         this.tokens = [];
         this.tokenize();
@@ -19,7 +17,7 @@ class Tokenizer {
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
         console.log(tokenizedProgram);
 
-        for (const str of this.literals) {
+        for (const str of literals) {
             const r = new RegExp(" " + str + " ","g");
             tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }

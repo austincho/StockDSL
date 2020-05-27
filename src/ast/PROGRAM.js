@@ -12,6 +12,19 @@ class PROGRAM {
         return this.statements;
     }
 
+    async start() {
+        try {
+            this.parse()
+            console.log("parsing complete");
+            const ret = await this.evaluate();
+            console.log("evaluating complete")
+            return ret;
+        }
+        catch(err) {
+            return [{error: err}]
+        }
+    }
+
     parse() {
         this.statements = [];
 
@@ -28,7 +41,7 @@ class PROGRAM {
             } else if (tokenizer.checkToken("Show")) {
                 s = new SHOWINFO();
             } else {
-                throw new Error("Unknown statement: " + tokenizer.getNext());
+                throw "Unknown statement: " + tokenizer.getNext();
             }
             s.parse();
             this.getStatements().push(s);
@@ -36,15 +49,17 @@ class PROGRAM {
     }
 
     async evaluate() {
+        let results = []
         if (typeof this.statements !== 'undefined' && Array.isArray(this.statements)) {
             for (let s of this.statements) {
-                await s.evaluate();
+                results.push(await s.evaluate());
                 if (await this.statements.indexOf(s) !== this.statements.length - 1 &&
                     (s.constructor.name === "SHOWINFO" || s.constructor.name === "COMPUTEINFO")) {
-                  await writeStream.write(",\n");
+                  //await writeStream.write(",\n");
                 }
             }
         }
+        return results
     }
 }
 

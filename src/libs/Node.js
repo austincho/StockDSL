@@ -1,9 +1,8 @@
 const Tokenizer = require("./Tokenizer")
-const fs = require("fs")
 
-writeStream = fs.createWriteStream("Output.json");
-readStream = fs.createReadStream("Output.json");
 tokenizer = new Tokenizer().getInstance();
+
+literals = ["Create", "Add", "Remove", "Compute", "Show", ",", "{", "}", "stock", "portfolio", "Alert", "Buy", "Sell", "Currency", "on", "with", "as", "Months", "Interest"]
 
 stockSymbolTable = new Map();
 portfolioSymbolTable = new Map();

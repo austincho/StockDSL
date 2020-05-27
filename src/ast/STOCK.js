@@ -33,6 +33,14 @@ class STOCK {
                         }
                         else {
                             stockSymbolTable[this.ticker] = [bAlert, parseFloat(this.buy), parseFloat(this.sell)];
+                            return {
+                                command: "Create",
+                                type: "Stock",
+                                name: this.ticker,
+                                alert: bAlert,
+                                buy: parseFloat(this.buy),
+                                sell: parseFloat(this.sell)
+                            }
                         }
                     }
                     else {
@@ -41,12 +49,20 @@ class STOCK {
                 }
                 else {
                     stockSymbolTable[this.ticker] = []
+                    return {command: "Create", type: "Stock", name: this.ticker}
                 }
             }
             else {
                 throw "Stock already exists";
             }
         }
+        else {
+            throw "Stock ticker undefined";
+        }
+    }
+
+    getName(){
+        return this.ticker;
     }
 }
 

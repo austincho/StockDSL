@@ -9,9 +9,7 @@ class COMPUTEINFO {
     }
 
     async evaluate() {
-        console.log("evaluating " + Object.keys(this.command)[0]);
-        await this.command.evaluate();
-        console.log("evaluated " + Object.keys(this.command)[0]);
+        return await this.command.evaluate();
     }
 }
 
