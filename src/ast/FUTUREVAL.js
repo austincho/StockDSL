@@ -4,10 +4,12 @@ const PORTFOLIO = require("./PORTFOLIO")
 class FUTUREVAL {
     parse() {
         if (tokenizer.checkToken("stock")) {
+            this.type = "Stock"
             tokenizer.getAndCheckNext("stock")
             this.stock = new STOCK();
             this.stock.parse();
         } else if (tokenizer.checkToken("portfolio")) {
+            this.type = "Portfolio"
             tokenizer.getAndCheckNext("portfolio")
             this.portfolio = new PORTFOLIO();
             this.portfolio.parse();
@@ -51,6 +53,7 @@ class FUTUREVAL {
                 return {
                     command: "Compute",
                     computeType: "FutureVal",
+                    type: this.type,
                     name: ticker,
                     quantity: parseInt(this.quantity),
                     months: parseInt(this.months),
