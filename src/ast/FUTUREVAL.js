@@ -15,11 +15,11 @@ class FUTUREVAL {
             throw "Unknown item: " + tokenizer.getNext();
         }
 
-        tokenizer.getAndCheckNext("Quantity");
+        tokenizer.getAndCheckNext("quantity");
         this.quantity = tokenizer.getNext();
-        tokenizer.getAndCheckNext("Months");
+        tokenizer.getAndCheckNext("months");
         this.months = tokenizer.getNext();
-        tokenizer.getAndCheckNext("Interest");
+        tokenizer.getAndCheckNext("interest");
         this.interest = tokenizer.getNext();
     }
 
@@ -30,6 +30,14 @@ class FUTUREVAL {
             throw "Months is undefined"
         } else if (typeof this.interest === 'undefined') {
             throw "Interest is undefined"
+        }
+
+        if (isNaN(this.quantity)) {
+            throw "Quantity  is not a number"
+        } else if (isNaN(this.months)) {
+            throw "Months is not a number"
+        } else if (isNaN(this.interest)) {
+            throw "Interest is not a number"
         }
 
         if (typeof this.stock !== 'undefined') {
@@ -44,9 +52,9 @@ class FUTUREVAL {
                     command: "Compute",
                     computeType: "FutureVal",
                     name: ticker,
-                    quantity: this.quantity,
-                    months: this.months,
-                    interest: this.interest,
+                    quantity: parseInt(this.quantity),
+                    months: parseInt(this.months),
+                    interest: parseFloat(this.interest),
                     futureValue: value
                 };
             }

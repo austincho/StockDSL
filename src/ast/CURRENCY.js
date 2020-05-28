@@ -3,7 +3,7 @@ const axios = require("axios")
 class CURRENCY {
 
     parse() {
-        tokenizer.getAndCheckNext("Currency");
+        tokenizer.getAndCheckNext("currency");
         this.currency = tokenizer.getNext();
     }
 

@@ -1,15 +1,10 @@
-const Tokenizer = require("../src/libs/Tokenizer")
-const PROGRAM = require("../src/ast/PROGRAM")
 const Descriptor = require("../src/libs/Descriptor")
-const fs = require("fs")
-
-let tokenizer = new Tokenizer().getInstance();
 
 class ASTTests {
     runTests() {
         /* Pass */
+        //this.test("CREATE stock AAPL");
         //this.test("Create stock AAPL");
-        //this.test("Create stock AAPL Alert true Buy 10.7 Sell 20.5");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio Remove { AAPL } myportfolio Add { AAPL } myportfolio");
         //this.test("Create stock AAPL Compute stock AAPL Quantity 20 Months 12 Interest 1.1");

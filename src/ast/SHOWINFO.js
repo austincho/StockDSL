@@ -5,7 +5,7 @@ const VISUALIZATION = require("./VISUALIZATION")
 class SHOWINFO {
 
     parse() {
-        tokenizer.getAndCheckNext("Show");
+        tokenizer.getAndCheckNext("show");
 
         if (tokenizer.checkToken("stock")) {
             tokenizer.getAndCheckNext("stock")

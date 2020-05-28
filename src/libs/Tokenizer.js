@@ -18,7 +18,7 @@ class Tokenizer {
         //console.log(tokenizedProgram);
 
         for (const str of literals) {
-            const r = new RegExp(" " + str + " ","g");
+            const r = new RegExp(" " + str + " ","ig");
             tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }
         //console.log(tokenizedProgram);
@@ -58,7 +58,7 @@ class Tokenizer {
             this.currentToken++;
         }
         else {
-            token = "NULLTOKEN";
+            throw "Missing token"
         }
         return token;
     }
@@ -66,6 +66,11 @@ class Tokenizer {
     checkToken(str) {
         let s = this.checkNext();
         return s === str;
+    }
+
+    checkTokenRegExp(regExp) {
+        let s = this.checkNext();
+        return s.match(regExp);
     }
 
     getAndCheckNext(str) {
