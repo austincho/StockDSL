@@ -35,7 +35,7 @@ class SHOWINFO {
             }
             else {
                 const type = "Stock"
-                const url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=ILUT5RWQ13K9DYW1"
+                const url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=ILUT5RWQ13K9DYW1"
                 const response = await fetch(url);
                 if (response.ok){
                     const json = await response.json();
