@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 var tokenizeRouter = require('./routes/tokenize');
 var networkclient = require('../networkclient/NetworkClient')
 var app = express();
-const port = 3001;
+const port = 3000;
 
 
 // view engine setup

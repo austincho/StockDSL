@@ -72,9 +72,9 @@ class CommandInput extends Component {
             for (let value of output) {
                 if (value.hasOwnProperty('error')) {
                     this.setState({showError: true, errorText: value.error});
-                } else if (value.hasOwnProperty('command') && value.type === 'Currency') {
+                } else if (value.hasOwnProperty('command') && value.computeType === 'Currency') {
                     this.setState({currency: value.to, exchangeRate: value.exchange});
-                } else if (value.hasOwnProperty('command') && value.type === 'FutureVal') {
+                } else if (value.hasOwnProperty('command') && value.computeType === 'FutureVal') {
                     if (value.interest === 'NULLTOKEN') {
                         this.setState({showError: true, errorText: 'Unexpected next token for Parsing! Please provide an interest rate'})
                     }
