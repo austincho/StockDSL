@@ -3,6 +3,16 @@ var router = express.Router();
 const Tokenizer = require("../../src/libs/Tokenizer");
 const Descriptor = require("../../src/libs/Descriptor");
 
+router.get('/testdata', function(req,res){
+    let teststock = ["{ticker: AAPL}",  "{ticker: DIS}", "{ticker: AAPL}" ]
+    let tokenizer = new Tokenizer().getInstance(); 
+    let descriptor = new Descriptor(); 
+    descriptor.describe(input).then(result => {
+        descriptor.writeToJson(); 
+        ret = result 
+        res.send(ret)
+    })
+  });
 router.post('/', function(req, res, next) {
     // Comment out this line:
     //res.send('respond with a resource');

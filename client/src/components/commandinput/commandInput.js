@@ -66,7 +66,6 @@ class CommandInput extends Component {
             });
     }
 
-
     handleOutput(output) {
         if (Array.isArray(output) && output.length>0) {
             for (let value of output) {

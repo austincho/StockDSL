@@ -5,6 +5,7 @@ var router = express.Router();
 /* GET users listing. */
 const userdata = [{"id": "user1", "name": "Rohan", "portfolioTags": [{"id": "p1"}]}]
 const portfolios = [{"id":"p1", "stocks": [{"id": "AAPL", "value": 200}]}]
+
 router.get('/:userid/portfolio', function(req, res, next){
   userdata.forEach(function(user){
     if(user.id == req.params.userid){

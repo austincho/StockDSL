@@ -3,9 +3,18 @@ var router = express.Router();
 const networkClient = require('../../networkclient/NetworkClient');
 /* GET home page. */
 var client = new networkClient(); 
+
+
 router.get('/', function(req, res, next) {
+  console.log(stockSymbolTable);
   res.render('index', { title: 'Express' });
 });
+
+router.get('/stock/:stockid/current', async(req,res) => {
+  var p =  await client.getStock( functionParams.timeSeriesDaily, [req.params.stockid], intervalValues.sixty );
+  p = p["Time Series (Daily)"][Object.keys(p["Time Series (Daily)"])[0]]
+  res.json(p)
+})
 //first thing to implement this one enbales getting the stockID 
 router.get("/stock/:stockid", async(req,res) => {
   try{
@@ -16,7 +25,22 @@ router.get("/stock/:stockid", async(req,res) => {
     console.log(err)
   }
 })
+router.get("/stock/query/:queryname", async(req,res) => {
+  if(req.param.queryname === ""){
+    //handle error
+  }
+  try{
+    let resp = await client.isValidStock(req.params.queryname); 
+    if(resp.bestMatches[0]!==null){
+      res.json(resp.bestMatches[0]);
+    }
+    
+    
+  }
+  catch(err){
 
+  }
+} )
 // Currency Convestion
 // Ex. "/currencyConversion/USD/CAD"
 router.get("/currencyConversion/:from/:to", async(req, res) => {

@@ -34,7 +34,9 @@ app.use('/tokenize', tokenizeRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => {
+  console.log(stockSymbolTable);
+  res.send('Hello World!')})
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 // error handler
 app.use(function(err, req, res, next) {

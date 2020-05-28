@@ -24,6 +24,11 @@ class networkClient{
         return this.executeRequest(url);
     }
 
+    isValidStock(ticker){
+        let url = this.baseURl + APIParameters.function + "SYMBOL_SEARCH&keywords=" + ticker + "&" + APIParameters.apikey + this.apikey; 
+        return this.executeRequest(url)
+    }
+
     async executeRequest(requestUrl){
         let response = await fetch(requestUrl); 
         if(response.ok){
