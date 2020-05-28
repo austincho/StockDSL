@@ -33,10 +33,6 @@ class App extends Component {
             <div className="App">
                 <h1>STOCK DSL</h1>
                 <CommandInput id="user1"/>
-                <h1>Testing React fetching from Express</h1>
-                {this.state.users.map(user =>
-                <div key={user.id}>{user.username}</div>
-                )}
             </div>
     );
     }

@@ -47,6 +47,25 @@ router.get("/graph/:time/:stockid/", async(req, res) =>  {
     console.log(err);
     }
 })
+
+router.post('/delete/:type/:name', function(req, res, next) {
+  // Comment out this line:
+  //res.send('respond with a resource');
+  const objType = req.params.type;
+  const name = req.params.name;
+  const table = objType === 'Stock' ? stockSymbolTable : portfolioSymbolTable;
+
+  if (!(name in table)) {
+    res.send([{error: name + ' does not exist in the data table.'}]);
+  } else {
+    delete table[name];
+    if (name in table) {
+      res.send([{error: 'Error deleting ' + objType + ' from table.'}])
+    }
+    res.send(table);
+  }
+});
+
 module.exports = router;
 
 const functionParams = {
