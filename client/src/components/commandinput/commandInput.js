@@ -75,7 +75,9 @@ class CommandInput extends Component {
                 } else if (value.hasOwnProperty('command') && value.computeType === 'Currency') {
                     this.setState({currency: value.to, exchangeRate: value.exchange});
                 } else if (value.hasOwnProperty('command') && value.computeType === 'FutureVal') {
-                    const futureValSentence = 'After ' + value.months + ' months, the future value of ' + value.quantity + ' shares of ' + value.name + ' at an interest rate of '
+                    const quantityStr = value.type === 'Stock' ? value.quantity + ' shares of ' + value.name:
+                        ' your Portfolio: { ' + value.name + ' } with ' + value.quantity + ' shares of each stock ';
+                    const futureValSentence = 'After ' + value.months + ' months, the future value of ' + quantityStr + ' at an interest rate of '
                         + value.interest + '% will be ' + (parseFloat(value.futureValue)*this.state.exchangeRate).toFixed(2) + ' ' + this.state.currency + '!';
                     this.setState({futureVal: futureValSentence})
                 } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
