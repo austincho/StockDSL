@@ -4,11 +4,11 @@ const FUTUREVAL = require("./FUTUREVAL")
 class COMMAND {
 
     parse() {
-        if (tokenizer.checkToken("Currency")) {
+        if (tokenizer.checkToken("currency")) {
             this.currency = new CURRENCY();
             this.currency.parse();
         }
-        else if (tokenizer.checkToken("on")) {
+        else if (tokenizer.checkToken("stock") || tokenizer.checkToken("portfolio")) {
             this.futureval = new FUTUREVAL();
             this.futureval.parse();
         }

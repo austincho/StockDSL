@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'typeface-roboto';
-import CommandInput from "./components/commandInput";
+import CommandInput from "./components/commandinput/commandInput";
 
 class App extends Component {
 
@@ -32,7 +32,7 @@ class App extends Component {
         return (
             <div className="App">
                 <h1>STOCK DSL</h1>
-                <CommandInput/>
+                <CommandInput id="user1"/>
                 <h1>Testing React fetching from Express</h1>
                 {this.state.users.map(user =>
                 <div key={user.id}>{user.username}</div>

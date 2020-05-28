@@ -1,8 +1,10 @@
 const Tokenizer = require("./Tokenizer")
 
+currentCurrency = "USD";
+
 tokenizer = new Tokenizer().getInstance();
 
-literals = ["Create", "Add", "Remove", "Compute", "Show", ",", "{", "}", "stock", "portfolio", "Alert", "Buy", "Sell", "Currency", "on", "with", "as", "Months", "Interest", "Quantity"]
+literals = ["create", "delete", "add", "remove", "compute", "show", ",", "{", "}", "stock", "portfolio", "currency", "with", "as", "months", "interest", "quantity"]
 
 stockSymbolTable = new Map();
 portfolioSymbolTable = new Map();

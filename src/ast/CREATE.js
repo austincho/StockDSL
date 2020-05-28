@@ -3,7 +3,7 @@ const PORTFOLIO = require("./PORTFOLIO")
 
 class CREATE {
     parse() {
-        tokenizer.getAndCheckNext("Create");
+        tokenizer.getAndCheckNext("create");
 
         this.item = null;
         if (tokenizer.checkToken("stock")) {

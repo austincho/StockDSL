@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import './commandInput.css';
+import './commandinput/commandInput.css';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
+import Portfolio from './portfolio/portfolio'
 
 class Column extends Component {
 
     constructor(props) {
         super(props);
         this.state={
-            toCurrency: ''
+            toCurrency: '', 
+            exchangeRate: props.exchangeRate
         }
     }
 
     render() {
+        console.log(this.state)
         return (
             <Grid item xs={4}>
                 <Grid container direction="column" spacing={2}>
@@ -36,9 +38,7 @@ class Column extends Component {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                </Typography>
-                                <Typography variant="body2" component="p">
-                                    Hello
+                                    <Portfolio id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
                         </Card>

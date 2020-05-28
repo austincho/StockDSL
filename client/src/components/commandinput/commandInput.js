@@ -6,7 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
-import Column from "./column";
+import Column from "../column";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card/Card";
@@ -16,6 +16,7 @@ class CommandInput extends Component {
     constructor(props) {
         super(props);
         this.state={
+            id: props.id, 
             commandList:[],
             newCommand:'',
             output: '',
@@ -23,7 +24,7 @@ class CommandInput extends Component {
             showError: false,
             currency: 'USD',
             toCurrency: '',
-            exchangeRate: 1,
+            exchangeRate: 1.00,
             futureVal: null
         }
     }
@@ -65,14 +66,15 @@ class CommandInput extends Component {
             });
     }
 
+
     handleOutput(output) {
         if (Array.isArray(output) && output.length>0) {
             for (let value of output) {
                 if (value.hasOwnProperty('error')) {
                     this.setState({showError: true, errorText: value.error});
-                } else if (value.hasOwnProperty('command') && value.type === 'Currency') {
+                } else if (value.hasOwnProperty('command') && value.computeType === 'Currency') {
                     this.setState({currency: value.to, exchangeRate: value.exchange});
-                } else if (value.hasOwnProperty('command') && value.type === 'FutureVal') {
+                } else if (value.hasOwnProperty('command') && value.computeType === 'FutureVal') {
                     if (value.interest === 'NULLTOKEN') {
                         this.setState({showError: true, errorText: 'Unexpected next token for Parsing! Please provide an interest rate'})
                     }
@@ -98,6 +100,7 @@ class CommandInput extends Component {
     }
 
     render() {
+        
         return (
             <div className="margins">
                 <Grid container spacing={3}>
@@ -152,7 +155,7 @@ class CommandInput extends Component {
                             </ul>
                         </Grid>
                     </Grid>
-                    <Column currency={this.state.currency}/>
+                    <Column exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
                 </Grid>
             </div>
         );

@@ -3,7 +3,7 @@ const COMMAND = require("./COMMAND")
 class COMPUTEINFO {
 
     parse() {
-        tokenizer.getAndCheckNext("Compute");
+        tokenizer.getAndCheckNext("compute");
         this.command = new COMMAND();
         this.command.parse();
     }
