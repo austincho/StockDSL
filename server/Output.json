@@ -1,0 +1,11 @@
+{
+	"results": [
+		{
+			"command": "Compute",
+			"computeType": "Currency",
+			"from": "USD",
+			"to": "AUD",
+			"exchange": 1.5071422073
+		}
+	]
+}

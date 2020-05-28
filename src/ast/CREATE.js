@@ -3,7 +3,7 @@ const PORTFOLIO = require("./PORTFOLIO")
 
 class CREATE {
     parse() {
-        tokenizer.getAndCheckNext("Create");
+        tokenizer.getAndCheckNext("create");
 
         this.item = null;
         if (tokenizer.checkToken("stock")) {
@@ -13,7 +13,7 @@ class CREATE {
             tokenizer.getAndCheckNext("portfolio")
             this.item = new PORTFOLIO();
         } else {
-            throw new Error("Unknown item: " + tokenizer.getNext());
+            throw "Unknown item: " + tokenizer.getNext();
         }
 
         this.item.parse();
@@ -21,8 +21,9 @@ class CREATE {
 
     evaluate() {
         if (typeof this.item !== 'undefined') {
-            this.item.evaluate();
+            return this.item.evaluate();
         }
+        return {};
     }
 }
 

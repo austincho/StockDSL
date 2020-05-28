@@ -5,7 +5,7 @@ class REMOVESTOCK {
         this.tickers = [];
         this.portfolio = null;
 
-        tokenizer.getAndCheckNext("Remove");
+        tokenizer.getAndCheckNext("remove");
         tokenizer.getAndCheckNext("{")
 
         while (!tokenizer.checkToken("}")) {
@@ -18,8 +18,6 @@ class REMOVESTOCK {
         tokenizer.getAndCheckNext("}")
 
         this.portfolio = tokenizer.getNext();
-        console.log("Tickers: " + this.tickers);
-        console.log("Portfolio: " + this.portfolio);
     }
 
     evaluate() {
@@ -41,6 +39,10 @@ class REMOVESTOCK {
                 }
             }
             portfolioSymbolTable[this.portfolio] = portfolioTickers;
+            return {command: "Remove", stocks: portfolioTickers, portfolio: this.portfolio}
+        }
+        else {
+            throw "Portfolio is undefined"
         }
     }
 }

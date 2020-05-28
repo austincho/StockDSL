@@ -1,49 +1,119 @@
-class FUTUREVAL {
+const STOCK = require("./STOCK")
+const PORTFOLIO = require("./PORTFOLIO")
 
+class FUTUREVAL {
     parse() {
-        tokenizer.getAndCheckNext("on");
-        this.name = tokenizer.getNext();
-        tokenizer.getAndCheckNext("Months");
+        if (tokenizer.checkToken("stock")) {
+            tokenizer.getAndCheckNext("stock")
+            this.stock = new STOCK();
+            this.stock.parse();
+        } else if (tokenizer.checkToken("portfolio")) {
+            tokenizer.getAndCheckNext("portfolio")
+            this.portfolio = new PORTFOLIO();
+            this.portfolio.parse();
+        } else {
+            throw "Unknown item: " + tokenizer.getNext();
+        }
+
+        tokenizer.getAndCheckNext("quantity");
+        this.quantity = tokenizer.getNext();
+        tokenizer.getAndCheckNext("months");
         this.months = tokenizer.getNext();
-        tokenizer.getAndCheckNext("Interest");
+        tokenizer.getAndCheckNext("interest");
         this.interest = tokenizer.getNext();
     }
 
     async evaluate() {
-        await this.computeFutureValue(this.name, this.months, this.interest);
+        if (typeof this.quantity === 'undefined') {
+            throw "Quantity is undefined"
+        } else if (typeof this.months === 'undefined') {
+            throw "Months is undefined"
+        } else if (typeof this.interest === 'undefined') {
+            throw "Interest is undefined"
+        }
+
+        if (isNaN(this.quantity)) {
+            throw "Quantity  is not a number"
+        } else if (isNaN(this.months)) {
+            throw "Months is not a number"
+        } else if (isNaN(this.interest)) {
+            throw "Interest is not a number"
+        }
+
+        if (typeof this.stock !== 'undefined') {
+            const ticker = this.stock.getName()
+            if (!(ticker in stockSymbolTable)) {
+                throw "Cannot visualize nonexistent ticker: " + ticker;
+            }
+            else {
+                const type = "Stock"
+                const value = this.computeFutureValue(ticker, type, this.quantity, this.months, this.interest);
+                return {
+                    command: "Compute",
+                    computeType: "FutureVal",
+                    name: ticker,
+                    quantity: parseInt(this.quantity),
+                    months: parseInt(this.months),
+                    interest: parseFloat(this.interest),
+                    futureValue: value
+                };
+            }
+        }
+        else if (typeof this.portfolio !== 'undefined') {
+            const name = this.portfolio.getName()
+            if (!(name in portfolioSymbolTable)) {
+                throw "Cannot visualize nonexistent portfolio: " + name;
+            }
+            else {
+                const type = "Portfolio"
+                let value = 0
+                // Loop through stocks in portfolio
+                for (const ticker of portfolioSymbolTable[name]) {
+                    value += this.computeFutureValue(ticker, type, this.quantity, this.months, this.interest);
+                }
+                return {
+                    command: "Compute",
+                    computeType: "FutureVal",
+                    name: name,
+                    quantity: this.quantity,
+                    months: this.months,
+                    interest: this.interest,
+                    futureValue: value
+                };
+            }
+        }
+        else {
+            throw "Invalid item"
+        }
     }
 
-    computeFutureValue(ticker, months, rate) {
+    computeFutureValue(name, type, quantity, months, rate) {
         // mock stock data
         const tickers = [
             {
                 "ticker": "AAPL",
-                "quantity": 20,
                 "price": 300.12
             },
             {
                 "ticker": "TSLA",
-                "quantity": 5,
                 "price": 823.05
             },
             {
                 "ticker": "MSFT",
-                "quantity": 10,
                 "price": 183.51
             }
         ];
 
-        const stock = tickers.find(x => x.ticker === ticker);
-        if (!!stock) {
-            let value = stock.quantity*stock.price * (1 + (rate*.01*(months/12)));
-            value = Math.floor(value * 100) / 100;
-            let valueString = {
-                "futureValue": value
-            };
-            writeStream.write(JSON.stringify(valueString, null, "\t"));
+        //TODO: send request to an API that gets current stock price of ticker
+
+        const stock = tickers.find(x => x.ticker === name);
+        if (stock) {
+            let value = quantity*stock.price * (1 + (rate*.01*(months/12)));
             return Math.floor(value * 100) / 100;
         }
-        return -1; // some sort of error here
+        else {
+            throw "Stock not found"
+        }
     }
 }
 

@@ -4,22 +4,25 @@ const FUTUREVAL = require("./FUTUREVAL")
 class COMMAND {
 
     parse() {
-        if (tokenizer.checkToken("Currency")) {
+        if (tokenizer.checkToken("currency")) {
             this.currency = new CURRENCY();
             this.currency.parse();
         }
-        else if (tokenizer.checkToken("on")) {
+        else if (tokenizer.checkToken("stock") || tokenizer.checkToken("portfolio")) {
             this.futureval = new FUTUREVAL();
             this.futureval.parse();
         }
     }
 
     async evaluate() {
-        if (this.currency != null) {
-            await this.currency.evaluate();
+        if (typeof this.currency !== 'undefined') {
+            return await this.currency.evaluate();
         }
-        else if (this.futureval != null) {
-            await this.futureval.evaluate();
+        else if (typeof this.futureval !== 'undefined') {
+            return await this.futureval.evaluate();
+        }
+        else {
+            throw "Invalid command"
         }
     }
 }

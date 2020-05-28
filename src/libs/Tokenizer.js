@@ -1,14 +1,12 @@
 class Tokenizer {
     constructor() {
         this.input = "";
-        this.literals = "";
         this.tokens = [];
         this.currentToken = 0;
     }
 
-    initialize(input, literalsList) {
+    initialize(input) {
         this.input = input;
-        this.literals = literalsList;
         this.currentToken = 0;
         this.tokens = [];
         this.tokenize();
@@ -17,20 +15,20 @@ class Tokenizer {
     tokenize() {
         let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
-        console.log(tokenizedProgram);
+        //console.log(tokenizedProgram);
 
-        for (const str of this.literals) {
-            const r = new RegExp(" " + str + " ","g");
+        for (const str of literals) {
+            const r = new RegExp(" " + str + " ","ig");
             tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }
-        console.log(tokenizedProgram);
+        //console.log(tokenizedProgram);
 
         tokenizedProgram = tokenizedProgram.replace(/__/g, "_");
-        console.log(tokenizedProgram);
+        //console.log(tokenizedProgram);
         if (tokenizedProgram.length > 0 && tokenizedProgram.charAt(0) === '_') {
             tokenizedProgram = tokenizedProgram.substring(1); // without first character
         }
-        console.log(tokenizedProgram);
+        //console.log(tokenizedProgram);
         const rawTokens = tokenizedProgram.split("_");
 
         for (const token of rawTokens) {
@@ -39,7 +37,7 @@ class Tokenizer {
                 this.tokens.push(tokenTrimmed);
             }
         }
-        console.log(this.tokens);
+        //console.log(this.tokens);
     }
 
     checkNext() {
@@ -60,7 +58,7 @@ class Tokenizer {
             this.currentToken++;
         }
         else {
-            token = "NULLTOKEN";
+            throw "Missing token"
         }
         return token;
     }
@@ -68,6 +66,11 @@ class Tokenizer {
     checkToken(str) {
         let s = this.checkNext();
         return s === str;
+    }
+
+    checkTokenRegExp(regExp) {
+        let s = this.checkNext();
+        return s.match(regExp);
     }
 
     getAndCheckNext(str) {
