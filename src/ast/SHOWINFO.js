@@ -1,6 +1,7 @@
 const STOCK = require("./STOCK")
 const PORTFOLIO = require("./PORTFOLIO")
 const VISUALIZATION = require("./VISUALIZATION")
+const fetch = require("node-fetch");
 
 class SHOWINFO {
 
@@ -34,12 +35,22 @@ class SHOWINFO {
             }
             else {
                 const type = "Stock"
-                return {
-                    command: "Show",
-                    type: type,
-                    name: ticker,
-                    visualType: this.visualization
+                const url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=ILUT5RWQ13K9DYW1"
+                const response = await fetch(url);
+                if (response.ok){
+                    const json = await response.json();
+                    return {
+                        command: "Show",
+                        type: type,
+                        name: ticker,
+                        visualType: this.visualization,
+                        data: json
+                    }
+                } else {
+                    throw "HTTP-Error: " + response.status;
                 }
+
+
             }
         }
         else if (typeof this.portfolio !== 'undefined') {
