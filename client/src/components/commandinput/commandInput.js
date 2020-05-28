@@ -76,38 +76,17 @@ class CommandInput extends Component {
                 } else if (value.hasOwnProperty('command') && value.computeType === 'Currency') {
                     this.setState({currency: value.to, exchangeRate: value.exchange});
                 } else if (value.hasOwnProperty('command') && value.computeType === 'FutureVal') {
-                    if (value.interest === 'NULLTOKEN') {
-                        this.setState({showError: true, errorText: 'Unexpected next token for Parsing! Please provide an interest rate'})
-                    }
                     const futureValSentence = 'After ' + value.months + ' months, the future value of ' + value.quantity + ' shares of ' + value.name + ' at an interest rate of '
                         + value.interest + '% will be ' + (parseFloat(value.futureValue)*this.state.exchangeRate).toFixed(2) + ' ' + this.state.currency + '!';
                     this.setState({futureVal: futureValSentence})
+                } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
+                    // TODO: call method that gets portfolio/stock info so data reloads
                 }
             }
         } else {
             this.setState({showError: true, errorText: 'Error receiving output'});
             console.log(this.state.errorText);
         }
-    }
-
-    handleDelete() {
-        fetch('/delete/Stock/AAPL', {
-            method: 'post'
-        })
-            .then(res => {
-                console.log(res.status);
-                if (res.status !== 200) {
-                    this.setState({showError: true, errorText: res.json()});
-                    return;
-                }
-                return res.json();
-            }).then(output => {
-            console.log('NEW STOCK TABLE: ', output);
-        }).catch(e => {
-            console.log('error: ', e);
-            this.setState({showError: true, errorText: 'error'});
-            console.log(this.state.errorText);
-        });
     }
 
     addCommand() {
@@ -156,7 +135,6 @@ class CommandInput extends Component {
                             </Grid>
                         </Grid>
                         <br/>
-                        <Button size="large" variant="contained" color="primary" onClick={() => this.handleDelete()}>Delete AAPL (add it first)</Button>
                         <Grid item xs={12}>
                             {this.state.showError &&
                             <Alert severity="error">{this.state.errorText}</Alert>
