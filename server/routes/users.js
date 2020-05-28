@@ -17,6 +17,7 @@ router.get('/:userid/portfolio', function(req, res, next){
           let value = portfolioSymbolTable[key]
           let key2 = key
           console.log(key)
+          console.log(stockSymbolTable)
         var toret = new Object(); 
         toret.id = key2 
         stocks = []
@@ -24,13 +25,20 @@ router.get('/:userid/portfolio', function(req, res, next){
           var stock = new Object()
           stock.id = e
           //implement get value from stocksymbol table function
-          stock.value = "002"  
+          //stock.value = getStockValueData(stock.id)
+          Object.keys(stockSymbolTable).forEach(function(key) {
+            if(key===stock.id){
+              stock.values = stockSymbolTable[key].values
+            }
+          })
           stocks.push(stock)
         })
         toret.stocks = stocks
         
           portfolios.push(toret)
         })
+        console.log(":LSDJKFSKL:")
+        
         console.log(portfolios.length)
         if(portfolios.length>0){
           res.statusCode = 200
@@ -63,6 +71,12 @@ function getPortfolioData(id) {
   })
   return retValue
 };
+
+function getStocksData(stocks){
+  
+}
+
+
 router.get('/', function(req, res, next) {
   // Comment out this line:
   //res.send('respond with a resource');

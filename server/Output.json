@@ -1,11 +1,3 @@
 {
-	"results": [
-		{
-			"command": "Add",
-			"stocks": [
-				"AAPL"
-			],
-			"portfolio": "myportfolio"
-		}
-	]
+	"results": []
 }

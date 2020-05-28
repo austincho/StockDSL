@@ -24,17 +24,17 @@ class Portfolio extends Component {
     getPortfolioInfo(){
         let self = this
         var stocklist = []
-        fetch('/users/' + this.state.id + '/portfolio', {
+        fetch('http://localhost:3000/users/' + this.state.id + '/portfolio', {
             method: 'get', 
             headers: {
                 "Content-Type": "application/json", 
                 'Accept': 'application/json',
-
             }
         })
         .then(res => {
             console.log("RESULT", res); 
             if(res.status !== 200){
+                console.log("Not okay")
                 return null; 
             }
             else {
@@ -78,7 +78,7 @@ class Portfolio extends Component {
                             {stocks.map((value) => (
                                 <TableRow key={value.id}>
                                     <TableCell>{value.id}</TableCell>
-                                    <TableCell>{value.value * this.state.multiplier}</TableCell>
+                                    <TableCell>{value.values * this.state.multiplier}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

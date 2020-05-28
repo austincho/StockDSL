@@ -17,6 +17,7 @@ router.get('/testdata', function(req,res){
             console.log(ret)
         })
     })
+    console.log(portfolioSymbolTable)
     res.send(portfolioSymbolTable)
   });
 router.post('/', function(req, res, next) {
