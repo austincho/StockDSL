@@ -2,10 +2,12 @@
 	"results": [
 		{
 			"command": "Compute",
-			"computeType": "Currency",
-			"from": "USD",
-			"to": "AUD",
-			"exchange": 1.5071422073
+			"computeType": "FutureVal",
+			"name": "AAPL",
+			"quantity": 20,
+			"months": 12,
+			"interest": 1.1,
+			"futureValue": 6068.42
 		}
 	]
 }

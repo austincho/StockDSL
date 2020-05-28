@@ -10,6 +10,7 @@ import Column from "../column";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card/Card";
+import CommandList from "../commandList";
 
 class CommandInput extends Component {
 
@@ -77,7 +78,9 @@ class CommandInput extends Component {
                     if (value.interest === 'NULLTOKEN') {
                         this.setState({showError: true, errorText: 'Unexpected next token for Parsing! Please provide an interest rate'})
                     }
-                    this.setState({futureVal: value.futureValue})
+                    const futureValSentence = 'After ' + value.months + ' months, the future value of ' + value.quantity + ' shares of ' + value.name + ' at an interest rate of '
+                        + value.interest + '% will be ' + (parseFloat(value.futureValue)*this.state.exchangeRate).toFixed(2) + ' ' + this.state.currency + '!';
+                    this.setState({futureVal: futureValSentence})
                 }
             }
         } else {
@@ -86,16 +89,41 @@ class CommandInput extends Component {
         }
     }
 
+    handleDelete() {
+        fetch('/delete/Stock/AAPL', {
+            method: 'post'
+        })
+            .then(res => {
+                console.log(res.status);
+                if (res.status !== 200) {
+                    this.setState({showError: true, errorText: res.json()});
+                    return;
+                }
+                return res.json();
+            }).then(output => {
+            console.log('NEW STOCK TABLE: ', output);
+        }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
+    }
+
     addCommand() {
         const command = this.state.newCommand.slice();
         // copy current list of commands
         const list = [...this.state.commandList];
-        list.push(command);
+        list.push({command:command, time: this.getTime()});
 
         // update state of commandList and reset newCommand
         this.setState({
-            commandList: list, newCommand: '', showError: false, errorText: '', toCurrency: '', exchangeRate: null, futureVal: null
+            commandList: list, newCommand: '', showError: false, errorText: '', toCurrency: '', futureVal: null
         });
+    }
+
+    getTime() {
+        let time = new Date();
+        return time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
     }
 
     render() {
@@ -127,6 +155,7 @@ class CommandInput extends Component {
                             </Grid>
                         </Grid>
                         <br/>
+                        <Button size="large" variant="contained" color="primary" onClick={() => this.handleDelete()}>Delete AAPL (add it first)</Button>
                         <Grid item xs={12}>
                             {this.state.showError &&
                             <Alert severity="error">{this.state.errorText}</Alert>
@@ -135,11 +164,11 @@ class CommandInput extends Component {
                         <Grid item xs={12}>
                             {this.state.futureVal !== null && !this.state.showError &&
                             <Card>
-                                <CardContent>
+                                <CardContent align="left">
                                     <Typography variant="h6" component="h2">
                                         Future Value
                                     </Typography>
-                                    <Typography variant="body2" component="p">
+                                    <Typography variant="body2">
                                         {this.state.futureVal}
                                     </Typography>
                                 </CardContent>
@@ -147,11 +176,7 @@ class CommandInput extends Component {
                             }
                         </Grid>
                         <Grid item xs={12}>
-                            <ul>
-                                {this.state.commandList.map((command, index) => {
-                                    return(<div key={index}>{command}</div>)
-                                })}
-                            </ul>
+                            <CommandList commandsSent={this.state.commandList}/>
                         </Grid>
                     </Grid>
                     <Column exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
