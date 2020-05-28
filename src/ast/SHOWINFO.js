@@ -59,12 +59,27 @@ class SHOWINFO {
                 throw "Cannot visualize nonexistent portfolio: " + name;
             }
             else {
+                let data = [];
+                for (const ticker of portfolioSymbolTable[name]) {
+                    const url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=ILUT5RWQ13K9DYW1"
+                    const response = await fetch(url);
+                    if (response.ok){
+                        const json = await response.json();
+                        if ("Error Message" in json) {
+                            throw "Stock cannot be found: " + ticker;
+                        }
+                        data.push(json);
+                    } else {
+                        throw "HTTP-Error: " + response.status;
+                    }
+                }
                 const type = "Portfolio"
                 return {
                     command: "Show",
                     type: type,
                     name: name,
-                    visualType: this.visualization
+                    visualType: this.visualization,
+                    data: data
                 }
             }
         }
