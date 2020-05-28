@@ -3,7 +3,7 @@ const PORTFOLIO = require("./PORTFOLIO")
 
 class DELETE {
     parse() {
-        tokenizer.getAndCheckNext("Delete");
+        tokenizer.getAndCheckNext("delete");
 
         if (tokenizer.checkToken("stock")) {
             tokenizer.getAndCheckNext("stock")

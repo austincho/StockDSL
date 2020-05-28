@@ -5,7 +5,7 @@ class ADDSTOCK {
         this.tickers = [];
         this.portfolio = null;
 
-        tokenizer.getAndCheckNext("Add");
+        tokenizer.getAndCheckNext("add");
         tokenizer.getAndCheckNext("{")
 
         while (!tokenizer.checkToken("}")) {
@@ -16,9 +16,6 @@ class ADDSTOCK {
         }
         tokenizer.getAndCheckNext("}")
         this.portfolio = tokenizer.getNext();
-
-        console.log("Tickers: " + this.tickers);
-        console.log("Portfolio: " + this.portfolio);
     }
 
     evaluate() {
