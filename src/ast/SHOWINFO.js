@@ -39,12 +39,13 @@ class SHOWINFO {
                 const response = await fetch(url);
                 if (response.ok){
                     const json = await response.json();
+                    let data = [json];
                     return {
                         command: "Show",
                         type: type,
                         name: ticker,
                         visualType: this.visualization,
-                        data: json
+                        data: data
                     }
                 } else {
                     throw "HTTP-Error: " + response.status;

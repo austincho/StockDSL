@@ -6,10 +6,16 @@ class Graph extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: "",
-            type : "",
+            data: props.graphData,
+            type : props.graphType,
             currency : "USD",
             exchangeRate: 1
+        }
+        let dataset = this.organizeData(this.state.data, this.state.type);
+        if (this.state.type === "line") {
+            this.createLineGraph(dataset);
+        } else if (this.state.type === "bar") {
+            this.createBarGraph(dataset);
         }
     }
 
@@ -40,7 +46,7 @@ class Graph extends Component {
                 "volume" : parseFloat(dataForDay["5. volume"])
             });
         });
-    } else if (type === "line") {
+    } else if (type === "bar") {
         var i = 0;
         Object.keys(items).forEach(function(key){
             if (i < 30) {
