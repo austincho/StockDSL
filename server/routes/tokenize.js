@@ -3,15 +3,21 @@ var router = express.Router();
 const Tokenizer = require("../../src/libs/Tokenizer");
 const Descriptor = require("../../src/libs/Descriptor");
 
-router.get('/testdata', function(req,res){
-    let teststock = ["{ticker: AAPL}",  "{ticker: DIS}", "{ticker: AAPL}" ]
+router.get('/testdata', function(req,res){ 
+    //testing only!    
+    let tests = ["CREATE stock AAPL", "CREATE stock DIS", "CREATE portfolio myportfolio", "Add { AAPL } myportfolio"]
     let tokenizer = new Tokenizer().getInstance(); 
     let descriptor = new Descriptor(); 
-    descriptor.describe(input).then(result => {
-        descriptor.writeToJson(); 
-        ret = result 
-        res.send(ret)
+    results = []
+    tests.forEach(el => {
+        descriptor.describe(el).then(result => {
+           // descriptor.writeToJson(); 
+            ret = result 
+            result.push(ret)
+            console.log(ret)
+        })
     })
+    res.send(portfolioSymbolTable)
   });
 router.post('/', function(req, res, next) {
     // Comment out this line:

@@ -13,13 +13,13 @@ class CREATE {
             tokenizer.getAndCheckNext("portfolio")
             this.item = new PORTFOLIO();
         } else {
-            throw "Unknown item: " + tokenizer.getNext();
+            throw "Unknown token: " + tokenizer.getNext();
         }
 
         this.item.parse();
     }
 
-    evaluate() {
+    async evaluate() {
         if (typeof this.item !== 'undefined') {
             return this.item.evaluate();
         }

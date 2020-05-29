@@ -1,14 +1,11 @@
 {
 	"results": [
 		{
-			"command": "Compute",
-			"computeType": "FutureVal",
-			"type": "Stock",
-			"name": "AAPL",
-			"quantity": 3,
-			"months": 12,
-			"interest": 1.1,
-			"futureValue": 910.26
+			"command": "Add",
+			"stocks": [
+				"AAPL"
+			],
+			"portfolio": "myportfolio"
 		}
 	]
 }

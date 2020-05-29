@@ -8,11 +8,11 @@ class REMOVESTOCK {
         tokenizer.getAndCheckNext("remove");
         tokenizer.getAndCheckNext("{")
 
-        while (!tokenizer.checkToken("}")) {
+        this.tickers.push(tokenizer.getNext());
+
+        while (tokenizer.checkToken(",")) {
+            tokenizer.getAndCheckNext(",");
             this.tickers.push(tokenizer.getNext());
-            if (tokenizer.checkToken(",")) {
-                tokenizer.getAndCheckNext(",");
-            }
         }
 
         tokenizer.getAndCheckNext("}")
@@ -23,15 +23,15 @@ class REMOVESTOCK {
     evaluate() {
         if (typeof this.portfolio !== 'undefined') {
             if (!(this.portfolio in portfolioSymbolTable)) {
-                throw "Portfolio does not exist"
+                throw "Portfolio does not exist: " + this.portfolio
             }
             let portfolioTickers = portfolioSymbolTable[this.portfolio];
             for (const ticker of this.tickers) {
                 if (!(ticker in stockSymbolTable)) {
-                    throw "Stock does not exist"
+                    throw "Stock does not exist: " + ticker
                 }
                 else if (!portfolioTickers.includes(ticker)) {
-                    throw "Portfolio does not contain value"
+                    throw this.portfolio + " does not contain stock: " + ticker
                 }
                 else {
                     const index = portfolioTickers.indexOf(ticker);

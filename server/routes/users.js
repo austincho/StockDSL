@@ -5,26 +5,41 @@ var router = express.Router();
 /* GET users listing. */
 const userdata = [{"id": "user1", "name": "Rohan", "portfolioTags": [{"id": "p1"}]}]
 const portfolios = [{"id":"p1", "stocks": [{"id": "AAPL", "value": 200}]}]
-
+//still need to get values 
 router.get('/:userid/portfolio', function(req, res, next){
   userdata.forEach(function(user){
     if(user.id == req.params.userid){
-      if(user.portfolioTags.length>0){
+      if(portfolioSymbolTable!==null){
         var portfolios = []
-        user.portfolioTags.forEach(function(pid){
-          let getPort = getPortfolioData(pid.id);
-          console.log(getPort)
-          if(getPort != null){
-            portfolios.push(getPort)
-          }
+        console.log(portfolioSymbolTable)
+        Object.keys(portfolioSymbolTable).forEach(function(key) {
+          //right now the key is showing up as key not potfolio ID PLS FIX 
+          let value = portfolioSymbolTable[key]
+          let key2 = key
+          console.log(key)
+        var toret = new Object(); 
+        toret.id = key2 
+        stocks = []
+        value.forEach(function(e){
+          var stock = new Object()
+          stock.id = e
+          //implement get value from stocksymbol table function
+          stock.value = "002"  
+          stocks.push(stock)
+        })
+        toret.stocks = stocks
+        
+          portfolios.push(toret)
         })
         console.log(portfolios.length)
         if(portfolios.length>0){
+          res.statusCode = 200
+          console.log("aok")
           res.json(portfolios); 
         }
         else {
          res.statusCode = "500"
-         res.send("Internal server error")
+         res.send("Portfoliolength of 0 ")
         }
       }
       else {
