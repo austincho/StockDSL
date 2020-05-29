@@ -1,6 +1,9 @@
 class PORTFOLIO {
     parse() {
         this.portfolioTag = tokenizer.getAndCheckNextRegExp(/[a-z]+/ig);
+        if (tokenizer.isKeyword(this.portfolioTag)) {
+            throw this.portfolioTag + " is a keyword";
+        }
     }
 
     async evaluate() {

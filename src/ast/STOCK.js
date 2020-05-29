@@ -3,9 +3,15 @@ client = new networkClient();
 class STOCK {
     parse() {
         this.ticker = tokenizer.getNext();
+        if (tokenizer.isKeyword(this.ticker)) {
+            throw this.ticker + " is a keyword";
+        }
     }
     async getStockValue(id){
-        var p =  await client.getStock( "TIME_SERIES_DAILY&", id, "60min&");
+        let p =  await client.getStock( "TIME_SERIES_DAILY&", id, "60min&");
+        if ("Error Message" in p) {
+            throw "Stock cannot be found: " + id;
+        }
         p = p["Time Series (Daily)"][Object.keys(p["Time Series (Daily)"])[0]]
         let firstKey = Object.keys(p)[0];
         return {"values": p[firstKey]}

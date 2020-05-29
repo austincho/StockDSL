@@ -5,6 +5,9 @@ class CURRENCY {
     parse() {
         tokenizer.getAndCheckNext("currency");
         this.currency = tokenizer.getNext();
+        if (tokenizer.isKeyword(this.currency)) {
+            throw this.currency + " is a keyword";
+        }
     }
 
     async evaluate() {

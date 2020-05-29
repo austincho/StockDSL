@@ -36,6 +36,10 @@ class Tokenizer {
         }
     }
 
+    isKeyword(str) {
+        return literals.includes(str.toLowerCase());
+    }
+
     checkNext() {
         if (this.currentToken < this.tokens.length) {
             return this.tokens[this.currentToken];
