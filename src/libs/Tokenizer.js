@@ -15,6 +15,8 @@ class Tokenizer {
     tokenize() {
         let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
+        tokenizedProgram = tokenizedProgram.replace(/{/g, " { ");
+        tokenizedProgram = tokenizedProgram.replace(/}/g, " } ");
 
         for (const str of literals) {
             const r = new RegExp(" " + str + " ","ig");

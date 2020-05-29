@@ -57,7 +57,7 @@ class SHOWINFO {
         else if (typeof this.portfolio !== 'undefined') {
             const name = this.portfolio.getName();
             if (!(name in portfolioSymbolTable)) {
-                throw "Cannot visualize nonexistent portfolio: " + name;
+                throw "Portfolio does not exist: " + name;
             }
             else {
                 let data = [];
