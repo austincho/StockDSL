@@ -47,7 +47,7 @@ class SHOWINFO {
                     }
                     let ret = {"Time Series (Daily)": {}}
                     for (const date in json["Time Series (Daily)"]) {
-                        ret["Time Series (Daily)"][date]["1. open"] = parseFloat(json["Time Series (Daily)"][date]["1. open"])
+                        ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
                         ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
                         ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
                     }
@@ -90,7 +90,7 @@ class SHOWINFO {
                                 ret["Time Series (Daily)"][date]["2. high"] += parseFloat(json["Time Series (Daily)"][date]["2. high"])
                                 ret["Time Series (Daily)"][date]["4. close"] += parseFloat(json["Time Series (Daily)"][date]["4. close"])
                             } else {
-                                ret["Time Series (Daily)"][date]["1. open"] = parseFloat(json["Time Series (Daily)"][date]["1. open"])
+                                ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
                                 ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
                                 ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
                             }
