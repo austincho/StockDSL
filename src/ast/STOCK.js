@@ -18,7 +18,7 @@ class STOCK {
                 let values = await this.getStockValue(this.ticker); 
                 console.log(values)
                 stockSymbolTable[this.ticker] = values
-                return {command: "Create", type: "Stock", name: this.ticker}
+                return {command: "Create", type: "Stock", name: this.ticker, values: values}
             }
             else {
                 throw "Stock already exists";
