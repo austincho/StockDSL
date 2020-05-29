@@ -47,9 +47,9 @@ class SHOWINFO {
                     }
                     let ret = {"Time Series (Daily)": {}}
                     for (const date in json["Time Series (Daily)"]) {
-                        ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
-                        ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
-                        ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                        ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"]) * exchangeRateFromUSDToCurrent}
+                        ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])  * exchangeRateFromUSDToCurrent
+                        ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])  * exchangeRateFromUSDToCurrent
                     }
                     return {
                         command: "Show",
@@ -86,13 +86,13 @@ class SHOWINFO {
 
                         for (const date in json["Time Series (Daily)"]) {
                             if (date in ret["Time Series (Daily)"]) {
-                                ret["Time Series (Daily)"][date]["1. open"] += parseFloat(json["Time Series (Daily)"][date]["1. open"])
-                                ret["Time Series (Daily)"][date]["2. high"] += parseFloat(json["Time Series (Daily)"][date]["2. high"])
-                                ret["Time Series (Daily)"][date]["4. close"] += parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                                ret["Time Series (Daily)"][date]["1. open"] += parseFloat(json["Time Series (Daily)"][date]["1. open"]) * exchangeRateFromUSDToCurrent
+                                ret["Time Series (Daily)"][date]["2. high"] += parseFloat(json["Time Series (Daily)"][date]["2. high"]) * exchangeRateFromUSDToCurrent
+                                ret["Time Series (Daily)"][date]["4. close"] += parseFloat(json["Time Series (Daily)"][date]["4. close"]) * exchangeRateFromUSDToCurrent
                             } else {
-                                ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
-                                ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
-                                ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                                ret["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"]) * exchangeRateFromUSDToCurrent}
+                                ret["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"]) * exchangeRateFromUSDToCurrent
+                                ret["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"]) * exchangeRateFromUSDToCurrent
                             }
                         }
                     } else {

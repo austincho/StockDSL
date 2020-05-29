@@ -2,7 +2,7 @@ const networkClient = require('../../networkclient/NetworkClient');
 client = new networkClient(); 
 class STOCK {
     parse() {
-        this.ticker = tokenizer.getNext();
+        this.ticker = tokenizer.getNext().toUpperCase();
         if (tokenizer.isKeyword(this.ticker)) {
             throw this.ticker + " is a keyword";
         }
