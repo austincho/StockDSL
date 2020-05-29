@@ -26,8 +26,14 @@ class CommandInput extends Component {
             currency: 'USD',
             toCurrency: '',
             exchangeRate: 1.00,
-            futureVal: null
+            futureVal: null,
+            portfolioData: {
+                stocks: [], 
+                id: "user1", 
+                multiplier: 1
+            }
         }
+        this.columRef = React.createRef()
     }
 
     updateInput(key, value) {
@@ -40,6 +46,10 @@ class CommandInput extends Component {
         this.addCommand();
         this.callTokenizer();
     }
+
+    
+
+
 
     callTokenizer() {
         fetch('/tokenize', {
@@ -67,7 +77,7 @@ class CommandInput extends Component {
             });
     }
 
-    handleOutput(output) {
+    async handleOutput(output) {
         if (Array.isArray(output) && output.length>0) {
             for (let value of output) {
                 if (value.hasOwnProperty('error')) {
@@ -84,6 +94,8 @@ class CommandInput extends Component {
                     // TODO: call method that gets portfolio/stock info so data reloads
                 }
             }
+            let state = this.state
+            this.setState({state})
         } else {
             this.setState({showError: true, errorText: 'Error receiving output'});
             console.log(this.state.errorText);
@@ -159,7 +171,7 @@ class CommandInput extends Component {
                             <CommandList commandsSent={this.state.commandList}/>
                         </Grid>
                     </Grid>
-                    <Column exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
+                    <Column portfolioData={this.state.portfolioData} exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
                 </Grid>
             </div>
         );

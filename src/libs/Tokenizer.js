@@ -7,7 +7,6 @@ class Tokenizer {
         this.tokens = [];
         this.currentToken = 0;
     }
-
     initialize(input) {
         this.input = input;
         this.currentToken = 0;
