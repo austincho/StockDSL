@@ -85,6 +85,8 @@ class CommandInput extends Component {
                     this.setState({showError: true, errorText: value.error});
                 } else if (value.hasOwnProperty('command') && value.computeType === 'Currency') {
                     this.setState({currency: value.to, exchangeRate: value.exchange});
+                    this.getPortfolioInfo();
+                    this.getStockInfo();
                 } else if (value.hasOwnProperty('command') && value.computeType === 'FutureVal') {
                     const quantityStr = value.type === 'Stock' ? value.quantity + ' shares of ' + value.name:
                         ' your Portfolio: { ' + value.name + ' } with ' + value.quantity + ' shares of each stock ';

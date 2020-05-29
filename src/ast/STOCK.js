@@ -20,7 +20,7 @@ class STOCK {
         if (typeof this.ticker !== 'undefined') {
             if (!(this.ticker in stockSymbolTable)) {
                 const values = await this.getStockValue(this.ticker);
-                stockSymbolTable[this.ticker] = parseFloat(values.values)
+                stockSymbolTable[this.ticker] = parseFloat(values.values)*exchangeRateFromUSDToCurrent
                 return {command: "Create", type: "Stock", name: this.ticker, values: values.values}
             }
             else {

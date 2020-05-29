@@ -15,20 +15,16 @@ class CURRENCY {
     }
 
     async computeCurrencyExchange(toCurrency) {
-        const usd = "USD"
+        const usd = "USD";
+        let usdMultiplier = 1.0;
         if (typeof this.currency !== 'undefined') {
             const fromCurrency = currentCurrency;
-            // USD to new currency
-            const url = "https://api.exchangeratesapi.io/latest?base=" + toCurrency + "&symbols=" + usd;
+            // new currency to USD
+            const url = "https://api.exchangeratesapi.io/latest?base=" + currentCurrency + "&symbols=" + usd;
             try {
-                const currencyResponse = await axios.get(url);
-
-                currentCurrency = toCurrency
-                if (toCurrency === "USD") {
-                    exchangeRateFromUSDToCurrent = 1.0;
-                }
-                else {
-                    exchangeRateFromUSDToCurrent = parseFloat(currencyResponse.data["rates"][usd]);
+                if (currentCurrency !== "USD") {
+                    const currencyResponse = await axios.get(url);
+                    usdMultiplier = parseFloat(currencyResponse.data["rates"][usd]);
                 }
             } catch (e) {
                 // some sort of error handling
@@ -43,13 +39,13 @@ class CURRENCY {
 
             // Current currency to new currency
             let exchangeRate = 1;
-            const url2 = "https://api.exchangeratesapi.io/latest?base=" + toCurrency + "&symbols=" + fromCurrency;
+            const url2 = "https://api.exchangeratesapi.io/latest?base=" + usd + "&symbols=" + toCurrency;
             try {
                 const currencyResponse = await axios.get(url2);
 
-                exchangeRate = parseFloat(currencyResponse.data["rates"][fromCurrency])
+                exchangeRate = parseFloat(currencyResponse.data["rates"][toCurrency]);
                 for (const key in stockSymbolTable) {
-                    stockSymbolTable[key] = stockSymbolTable[key] * exchangeRate;
+                    stockSymbolTable[key] = stockSymbolTable[key] * exchangeRate * usdMultiplier;
                 }
             } catch (e) {
                 // some sort of error handling
@@ -61,7 +57,8 @@ class CURRENCY {
                     throw "Error getting currency exchange rate."
                 }
             }
-
+            exchangeRateFromUSDToCurrent = exchangeRate;
+            currentCurrency = toCurrency;
             return {
                 command: "Compute",
                 computeType: "Currency",

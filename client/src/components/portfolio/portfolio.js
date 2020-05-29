@@ -41,7 +41,7 @@ class Portfolio extends Component {
                                     {value.stocks.map((value) => (
                                         <TableRow key={value.id}>
                                             <TableCell>{value.id}</TableCell>
-                                            <TableCell>{value.values * this.state.multiplier}</TableCell>
+                                            <TableCell>{value.values.toFixed(2)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
