@@ -36,6 +36,12 @@ router.get("/stock/:stockid", async(req,res) => {
     console.log(err)
   }
 })
+
+router.get('/currency', async(req,res) => {
+  res.json({currency: currentCurrency})
+})
+
+
 router.get("/stock/query/:queryname", async(req,res) => {
   if(req.param.queryname === ""){
     //handle error
