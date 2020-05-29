@@ -20,7 +20,7 @@ class Column extends Component {
    
 
     render() {
-        console.log(this.state)
+        console.log('COLUMN STATE: ', this.state);
         return (
             <Grid item xs={4}>
                 <Grid container direction="column" spacing={2}>
@@ -41,22 +41,22 @@ class Column extends Component {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                    <Portfolio stocks={this.props.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
+                                    <Portfolio portfolioList={this.props.portfolioData} id="user1" multiplier={this.state.exchangeRate}/>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    Stocks
+                                    <StockContainer stocks={this.props.stockList} id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h5" component="h2">
-                                    Stocks
-                                    <StockContainer stocks={this.state.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
             </Grid>
         );
     }

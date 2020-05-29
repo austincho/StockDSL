@@ -28,10 +28,11 @@ class CommandInput extends Component {
             exchangeRate: 1.00,
             futureVal: null,
             portfolioData: {
-                stocks: [], 
-                id: "user1", 
+                portfolioList: [],
+                id: "user1",
                 multiplier: 1
-            }
+            },
+            stockList: []
         }
         this.columRef = React.createRef()
     }
@@ -92,6 +93,7 @@ class CommandInput extends Component {
                     this.setState({futureVal: futureValSentence})
                 } else if (value.hasOwnProperty('command')) {
                     this.getPortfolioInfo();
+                    this.getStockInfo();
                 }
             }
             let state = this.state
@@ -100,6 +102,40 @@ class CommandInput extends Component {
             this.setState({showError: true, errorText: 'Error receiving output'});
             console.log(this.state.errorText);
         }
+    }
+
+    getStockInfo() {
+        fetch('http://localhost:3000/stocks', {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': 'application/json',
+            }
+        })
+            .then(res => {
+                console.log("RESULT", res);
+                if(res.status !== 200){
+                    console.log("Error code from getting stocks");
+                    return null;
+                }
+                else {
+                    return res.json();
+                }
+            })
+            .then(stocks => {
+                console.log(stocks);
+                if(stocks === null){
+                    //handle no stocks found
+                    console.log("no stocks found");
+                    return;
+                }
+                this.setState({stockList: stocks});
+                console.log('STOCK DATA: ', this.state.stockList);
+            }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
     }
 
     getPortfolioInfo(){
@@ -123,24 +159,21 @@ class CommandInput extends Component {
 
             })
             .then(res2 => {
-                console.log(res2)
-
                 if(res2 === null){
                     //handle no stocks found
                     console.log("no stocks found");
                     return;
                 }
-                res2 = res2[0]
-                for(let i = 0; i<res2.stocks.length; i++){
-                    stocklist.push(res2.stocks[i])
+                for (let pData of res2) {
+                    console.log('PORTFOLIO FOR EACH DATA: ', pData);
+                    stocklist.push(pData);
                 }
-                console.log('STOCKLIST: ', stocklist);
                 this.setState({portfolioData: {
-                        stocks: stocklist,
+                        portfolioList: stocklist,
                         id: "user1",
                         multiplier: this.state.exchangeRate
                     }});
-                // this.setState({stocks: stocklist})
+                console.log('PORTFOLIODATA: ', this.state.portfolioData);
             }).catch(e => {
             console.log('error: ', e);
             this.setState({showError: true, errorText: 'error'});
@@ -150,6 +183,7 @@ class CommandInput extends Component {
 
     componentDidMount(){
         this.getPortfolioInfo();
+        this.getStockInfo();
     }
     addCommand() {
         const command = this.state.newCommand.slice();
@@ -220,7 +254,7 @@ class CommandInput extends Component {
                             <CommandList commandsSent={this.state.commandList}/>
                         </Grid>
                     </Grid>
-                    <Column portfolioData={this.state.portfolioData} exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
+                    <Column stockList={this.state.stockList} portfolioData={this.state.portfolioData.portfolioList} exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
                 </Grid>
             </div>
         );

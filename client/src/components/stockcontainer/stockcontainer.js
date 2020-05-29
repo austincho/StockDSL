@@ -13,61 +13,14 @@ class StockContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            stocks: props.stocks,
+            stocks: props.stocks.stocks,
             id: props.id, 
             multiplier: props.multiplier
         }    
     }
-    async componentDidMount() {
-        await this.getStockInfo()
-        let state = this.state
-        this.setState({state})
-    }
-
-
-    getStockInfo(){
-        let self = this
-        var stocklist = []
-        fetch('http://localhost:3000/stocks/', {
-            method: 'get', 
-            headers: {
-                "Content-Type": "application/json", 
-                'Accept': 'application/json',
-            }
-        })
-        .then(res => {
-            console.log("RESULT", res); 
-            if(res.status !== 200){
-                console.log("Not okay")
-                return null; 
-            }
-            else {
-                return res.json(); 
-            }
-            
-        })
-        .then(res2 => {
-            console.log(res2)
-            if(res2 === null){
-                //handle no stocks found
-                console.log("no stocks foudn"); 
-                return; 
-            } 
-            res2 = res2
-            for(let i = 0; i<res2.length; i++){
-                stocklist.push(res2[i])
-            }
-            console.log(stocklist)
-            self.setState({stocks: stocklist})
-        }).catch(e => {
-            console.log('error: ', e);
-            this.setState({showError: true, errorText: 'error'});
-            console.log(this.state.errorText);
-        });
-    }
 
     render() {
-        console.log(this.state)
+        console.log('STOCK CONTAINER PROPS: ', this.props);
         return (
             <div>
                 <TableContainer component={Card}>
@@ -79,7 +32,7 @@ class StockContainer extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.stocks.map((value) => (
+                            {this.props.stocks.map((value) => (
                                 <TableRow key={value.id}>
                                     <TableCell>{value.id}</TableCell>
                                     <TableCell>{value.values * this.state.multiplier}</TableCell>

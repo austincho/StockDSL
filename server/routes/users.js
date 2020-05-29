@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET users listing. */
 const userdata = [{"id": "user1", "name": "Rohan", "portfolioTags": [{"id": "p1"}]}]
 const portfolios = [{"id":"p1", "stocks": [{"id": "AAPL", "value": 200}]}]
-//still need to get values 
+//still need to get values
 router.get('/:userid/portfolio', function(req, res, next){
   userdata.forEach(function(user){
     if(user.id == req.params.userid){
@@ -23,8 +23,6 @@ router.get('/:userid/portfolio', function(req, res, next){
         value.forEach(function(e){
           var stock = new Object()
           stock.id = e
-          //implement get value from stocksymbol table function
-          //stock.value = getStockValueData(stock.id)
           
           Object.keys(stockSymbolTable).forEach(function(key) {
             if(key===stock.id){
@@ -70,10 +68,6 @@ function getPortfolioData(id) {
   })
   return retValue
 };
-
-function getStocksData(stocks){
-  
-}
 
 
 router.get('/', function(req, res, next) {

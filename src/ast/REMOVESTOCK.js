@@ -35,7 +35,7 @@ class REMOVESTOCK {
                 }
                 else {
                     const index = portfolioTickers.indexOf(ticker);
-                    portfolioTickers.splice(index);
+                    portfolioTickers.splice(index, 1);
                 }
             }
             portfolioSymbolTable[this.portfolio] = portfolioTickers;
