@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import Stock from '../stocks/Stock';
-import './portfolio.css';
+import './stockcontainer.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 
-class Portfolio extends Component { 
+class StockContainer extends Component { 
     constructor(props){
         super(props)
         this.state = {
@@ -19,16 +19,16 @@ class Portfolio extends Component {
         }    
     }
     async componentDidMount() {
-        await this.getPortfolioInfo()
+        await this.getStockInfo()
         let state = this.state
         this.setState({state})
     }
 
 
-    getPortfolioInfo(){
+    getStockInfo(){
         let self = this
         var stocklist = []
-        fetch('http://localhost:3000/users/' + this.state.id + '/portfolio', {
+        fetch('http://localhost:3000/stocks/', {
             method: 'get', 
             headers: {
                 "Content-Type": "application/json", 
@@ -48,14 +48,13 @@ class Portfolio extends Component {
         })
         .then(res2 => {
             console.log(res2)
-            res2 = res2[0]
             if(res2 === null){
                 //handle no stocks found
                 console.log("no stocks foudn"); 
                 return; 
             } 
-            for(let i = 0; i<res2.stocks.length; i++){
-                stocklist.push(res2.stocks[i])
+            for(let i = 0; i<res2.length; i++){
+                stocklist.push(res2[i])
             }
             console.log(stocklist)
             self.setState({stocks: stocklist})
@@ -94,4 +93,4 @@ class Portfolio extends Component {
     }
 
 }
-export default Portfolio
+export default StockContainer
