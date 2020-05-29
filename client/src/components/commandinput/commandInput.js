@@ -11,6 +11,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card/Card";
 import CommandList from "../commandList";
+import Graph from "../charts/graph";
+import * as d3 from "d3";
 
 class CommandInput extends Component {
 
@@ -27,6 +29,8 @@ class CommandInput extends Component {
             toCurrency: '',
             exchangeRate: 1.00,
             futureVal: null,
+            graphData: null,
+            graphType: null,
             portfolioData: {
                 portfolioList: [],
                 id: "user1",
@@ -93,11 +97,15 @@ class CommandInput extends Component {
                     const futureValSentence = 'After ' + value.months + ' months, the future value of ' + quantityStr + ' at an interest rate of '
                         + value.interest + '% will be ' + (parseFloat(value.futureValue)*this.state.exchangeRate).toFixed(2) + ' ' + this.state.currency + '!';
                     this.setState({futureVal: futureValSentence})
-                } else if (value.hasOwnProperty('command')) {
+                } else if (value.hasOwnProperty('command') && value.command === 'Show' && this.state.graphData === null) {            
+                    this.setState({graphType: output[0].visualType, graphData: output[0].data});
+
+                } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
                     this.getPortfolioInfo();
                     this.getStockInfo();
                 }
             }
+
             let state = this.state
             this.setState({state})
         } else {
@@ -195,8 +203,17 @@ class CommandInput extends Component {
 
         // update state of commandList and reset newCommand
         this.setState({
-            commandList: list, newCommand: '', showError: false, errorText: '', toCurrency: '', futureVal: null
+            commandList: list, 
+            newCommand: '', 
+            showError: false, 
+            errorText: '', 
+            toCurrency: '', 
+            futureVal: null,
+            graphData: null
         });
+
+
+        d3.selectAll("svg").remove();
     }
 
     getTime() {
@@ -205,7 +222,6 @@ class CommandInput extends Component {
     }
 
     render() {
-        
         return (
             <div className="margins">
                 <Grid container spacing={3}>
@@ -251,6 +267,13 @@ class CommandInput extends Component {
                                 </CardContent>
                             </Card>
                             }
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div id="#graphModal">
+                            {this.state.graphData !== null && this.state.graphType  !== null && !this.state.showError &&
+                                <Graph graphData={this.state.graphData} graphType={this.state.graphType} currency={this.state.currency} exchangeRate={this.state.exchangeRate} />
+                            }
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
                             <CommandList commandsSent={this.state.commandList}/>

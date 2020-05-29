@@ -1,59 +1,57 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
+import Card from "@material-ui/core/Card/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import Grid from '@material-ui/core/Grid';
 
 
 class Graph extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: "",
-            type : "",
-            currency : "USD",
-            exchangeRate: 1
+            data: props.graphData,
+            type : props.graphType,
+            currency : props.currency,
+            exchangeRate: props.exchangeRate,
         }
+            let dataset = this.organizeData(this.state.data, this.state.type);
+            if (this.state.type === "LINE") {
+                this.createLineGraph(dataset);
+            } else if (this.state.type === "BAR") {
+                this.createBarGraph(dataset);
+            } 
     }
+    
 
-    init(){
-        let dataset = this.organizeData(this.state.data, this.state.type);
-        if (this.state.type === "line") {
-            this.createLineGraph(dataset);
-        } else if (this.state.type === "bar") {
-            this.createBarGraph(dataset);
-        }
-    }
-
-    // }
     organizeData(data, type) {
-        let items = data[Object.keys(data)[1]];
-
         let dataset = [];
+
+        let items = data["Time Series (Daily)"];
         
-        if (type === "line") {
+        if (type === "LINE") {
         Object.keys(items).forEach(function(key){
             let dataForDay = items[key];
             dataset.push({
                 "date": d3.timeParse("%Y-%m-%d")(key),
-                "open" : parseFloat(dataForDay["1. open"]),
                 "high" : parseFloat(dataForDay["2. high"]),
-                "low" : parseFloat(dataForDay["3. low"]),
-                "close" : parseFloat(dataForDay["4. close"]),
-                "volume" : parseFloat(dataForDay["5. volume"])
+                "close" : parseFloat(dataForDay["4. close"])
             });
         });
-    } else if (type === "line") {
+    } else if (type === "BAR") {
         var i = 0;
         Object.keys(items).forEach(function(key){
             if (i < 30) {
             let dataForDay = items[key];
             dataset.push({
                 "date": key.substring(5),
-                "open" : parseFloat(dataForDay["1. open"]),
-                "high" : parseFloat(dataForDay["2. high"])
+                "high" : parseFloat(dataForDay["2. high"]),
+                "close" : parseFloat(dataForDay["4. close"])
             });
             }
             i+=1;
         });
-    } 
+    }
         return dataset.reverse();
     }
 
@@ -62,15 +60,12 @@ class Graph extends Component {
         var optwidth        = 900;
         var optheight       = 500;
 
-        /* === Focus chart === */
-
         var margin	= {top: 20, right: 30, bottom: 100, left: 30};
         var width	= optwidth - margin.left - margin.right;
         var height	= optheight - margin.top - margin.bottom;
 
-        /* === Context chart === */
-
-        var svg = d3.select("#metric-modal")
+        
+        var svg = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -105,15 +100,7 @@ class Graph extends Component {
             .range([ height, 0 ]);
 
             svg.append("g")
-            .call(d3.axisLeft(y));
-
-            svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x",0 - (height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Price in USD");      
+            .call(d3.axisLeft(y));    
 
             // Add the line
         svg.append("path")
@@ -126,7 +113,6 @@ class Graph extends Component {
             .y(function(d) { return y(d.high) })
             )
     }
-
     
     createBarGraph(dataset){
 
@@ -155,6 +141,7 @@ class Graph extends Component {
         x.domain(dataset.map(function(d) { return d.date; }));
         y.domain([0, yMax + yMax/2]);
 
+
   // append the rectangles for the bar chart
         svg.selectAll(".bar")
             .data(dataset)
@@ -178,10 +165,22 @@ class Graph extends Component {
 
     render() {
         return (
-            <div className="Graph">
-            <div id="metric-modal"></div>
-    </div>
-    );
+            <Grid item xs={12}>
+                {this.state.type === "TEXT" &&
+            <Card>
+            <CardContent align="left">
+                <Typography variant="h6" component="h2">
+                    Visualization of Data (Text)
+                </Typography>
+                <br/>
+                <Typography variant="body2">
+                    {JSON.stringify(this.state.data["Time Series (Daily)"])}
+                </Typography>
+            </CardContent>
+        </Card>
+        }
+        </Grid>
+        );
     }
 }
 
