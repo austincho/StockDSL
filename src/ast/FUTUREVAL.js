@@ -115,7 +115,7 @@ class FUTUREVAL {
             return Math.floor(value * 100) / 100;
         }
         else {
-            throw "Stock not found: " name
+            throw "Stock not found: " + name
         }
     }
 }
