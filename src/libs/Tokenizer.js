@@ -15,20 +15,18 @@ class Tokenizer {
     tokenize() {
         let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
-        //console.log(tokenizedProgram);
 
         for (const str of literals) {
             const r = new RegExp(" " + str + " ","ig");
             tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
         }
-        //console.log(tokenizedProgram);
 
         tokenizedProgram = tokenizedProgram.replace(/__/g, "_");
-        //console.log(tokenizedProgram);
+
         if (tokenizedProgram.length > 0 && tokenizedProgram.charAt(0) === '_') {
             tokenizedProgram = tokenizedProgram.substring(1); // without first character
         }
-        //console.log(tokenizedProgram);
+
         const rawTokens = tokenizedProgram.split("_");
 
         for (const token of rawTokens) {
@@ -37,44 +35,38 @@ class Tokenizer {
                 this.tokens.push(tokenTrimmed);
             }
         }
-        //console.log(this.tokens);
     }
 
     checkNext() {
-        let token = "";
         if (this.currentToken < this.tokens.length) {
-            token = this.tokens[this.currentToken];
+            return this.tokens[this.currentToken];
         }
         else {
-            token = "NO_MORE_TOKENS";
+            return "NO_MORE_TOKENS";
         }
-        return token;
     }
 
     getNext() {
-        let token = "";
         if (this.currentToken < this.tokens.length) {
-            token = this.tokens[this.currentToken];
-            this.currentToken++;
+            return this.tokens[this.currentToken++];
         }
         else {
             throw "Missing token"
         }
-        return token;
     }
 
     checkToken(str) {
-        let s = this.checkNext();
+        const s = this.checkNext();
         return s === str;
     }
 
     checkTokenRegExp(regExp) {
-        let s = this.checkNext();
+        const s = this.checkNext();
         return s.match(regExp);
     }
 
     getAndCheckNext(str) {
-        let s = this.getNext();
+        const s = this.getNext();
         if (s !== str) {
             throw "Unexpected next token for Parsing! Expected something matching: " + str + " but got: " + s;
         }
@@ -82,7 +74,7 @@ class Tokenizer {
     }
 
     getAndCheckNextRegExp(regExp) {
-        let s = this.getNext();
+        const s = this.getNext();
         if (!s.match(regExp)) {
             throw "Unexpected next token for Parsing! Expected something matching: " + regExp + " but got: " + s;
         }
