@@ -90,8 +90,8 @@ class CommandInput extends Component {
                     const futureValSentence = 'After ' + value.months + ' months, the future value of ' + quantityStr + ' at an interest rate of '
                         + value.interest + '% will be ' + (parseFloat(value.futureValue)*this.state.exchangeRate).toFixed(2) + ' ' + this.state.currency + '!';
                     this.setState({futureVal: futureValSentence})
-                } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
-                    // TODO: call method that gets portfolio/stock info so data reloads
+                } else if (value.hasOwnProperty('command')) {
+                    this.getPortfolioInfo();
                 }
             }
             let state = this.state
@@ -100,6 +100,52 @@ class CommandInput extends Component {
             this.setState({showError: true, errorText: 'Error receiving output'});
             console.log(this.state.errorText);
         }
+    }
+
+    getPortfolioInfo(){
+        var stocklist = []
+        fetch('http://localhost:3000/users/' + "user1" + '/portfolio', {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': 'application/json',
+            }
+        })
+            .then(res => {
+                console.log("RESULT", res);
+                if(res.status !== 200){
+                    console.log("Not okay commandinput")
+                    return null;
+                }
+                else {
+                    return res.json();
+                }
+
+            })
+            .then(res2 => {
+                console.log(res2)
+
+                if(res2 === null){
+                    //handle no stocks found
+                    console.log("no stocks found");
+                    return;
+                }
+                res2 = res2[0]
+                for(let i = 0; i<res2.stocks.length; i++){
+                    stocklist.push(res2.stocks[i])
+                }
+                console.log('STOCKLIST: ', stocklist);
+                this.setState({portfolioData: {
+                        stocks: stocklist,
+                        id: "user1",
+                        multiplier: this.state.exchangeRate
+                    }});
+                // this.setState({stocks: stocklist})
+            }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
     }
 
     addCommand() {
