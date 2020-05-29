@@ -100,7 +100,7 @@ class CommandInput extends Component {
                 } else if (value.hasOwnProperty('command') && value.command === 'Show' && this.state.graphData === null) {            
                     this.setState({graphType: output[0].visualType, graphData: output[0].data});
 
-                } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
+                } else if (value.hasOwnProperty('command')) {
                     this.getPortfolioInfo();
                     this.getStockInfo();
                 }
