@@ -9,7 +9,17 @@ router.get('/', function(req, res, next) {
   console.log(stockSymbolTable);
   res.render('index', { title: 'Express' });
 });
-
+router.get('/stocks', function(req, res, next){
+  console.log(stockSymbolTable)
+  stocks = []
+  Object.keys(stockSymbolTable).forEach(function(key){
+    var stock = new Object(); 
+    stock.id = key; 
+    stock.values = stockSymbolTable[key].values
+    stocks.push(stock)
+  })
+  res.json(stocks)
+})
 router.get('/stock/:stockid/current', async(req,res) => {
   var p =  await client.getStock( functionParams.timeSeriesDaily, [req.params.stockid], intervalValues.sixty );
   p = p["Time Series (Daily)"][Object.keys(p["Time Series (Daily)"])[0]]
