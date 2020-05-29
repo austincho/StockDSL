@@ -29,7 +29,7 @@ class CommandInput extends Component {
             exchangeRate: 1.00,
             futureVal: null,
             graphData: null,
-            graphType: 'line',
+            graphType: null,
             portfolioData: {
                 stocks: [], 
                 id: "user1", 
@@ -95,7 +95,10 @@ class CommandInput extends Component {
                     this.setState({futureVal: futureValSentence})
                 } else if (value.hasOwnProperty('command') && value.command === 'Show') {
                     console.log("SHOW OUTPUT: ", output[0].data);
-                    this.setState({graphType: output.visualType});
+                    console.log(output[0].visualType);
+                    debugger;
+                    
+                    this.setState({graphType: output[0].visualType});
                     this.setState({graphData: output[0].data});
                 } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
                     this.getPortfolioInfo();
@@ -223,7 +226,7 @@ class CommandInput extends Component {
                             }
                         </Grid>
                         <Grid item xs={12}>
-                            {this.state.graphData !== null && !this.state.showError &&
+                            {this.state.graphData !== null && this.state.graphType  !== null && !this.state.showError &&
                                 <Graph graphData={this.state.graphData} graphType={this.state.graphType} currency={this.state.currency} exchangeRate={this.state.exchangeRate} />
                             }
                         </Grid>

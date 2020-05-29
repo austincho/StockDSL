@@ -13,9 +13,9 @@ class Graph extends Component {
         }
         debugger;
             let dataset = this.organizeData(this.state.data, this.state.type);
-            if (this.state.type === "line") {
+            if (this.state.type === "LINE") {
                 this.createLineGraph(dataset);
-            } else if (this.state.type === "bar") {
+            } else if (this.state.type === "BAR") {
                 this.createBarGraph(dataset);
             }
     }
@@ -33,11 +33,10 @@ class Graph extends Component {
 
     organizeData(data, type) {
         let dataset = [];
-        data.forEach( function(stock) {
 
-        let items = stock[Object.keys(stock)[1]];
+        let items = data["Time Series (Daily)"];
         
-        if (type === "line") {
+        if (type === "LINE") {
         Object.keys(items).forEach(function(key){
             let dataForDay = items[key];
             dataset.push({
@@ -46,7 +45,7 @@ class Graph extends Component {
                 "close" : parseFloat(dataForDay["4. close"])
             });
         });
-    } else if (type === "bar") {
+    } else if (type === "BAR") {
         var i = 0;
         Object.keys(items).forEach(function(key){
             if (i < 30) {
@@ -60,7 +59,6 @@ class Graph extends Component {
             i+=1;
         });
     }
-})
         return dataset.reverse();
     }
 

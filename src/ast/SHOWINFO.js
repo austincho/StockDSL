@@ -39,9 +39,6 @@ class SHOWINFO {
                 const response = await fetch(url);
                 if (response.ok){
                     const json = await response.json();
-<<<<<<< HEAD
-                    let data = [json];
-=======
                     if ("Error Message" in json) {
                         throw "Stock cannot be found: " + ticker;
                     }
@@ -57,17 +54,12 @@ class SHOWINFO {
                             obj["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
                         }
                     }
->>>>>>> master
                     return {
                         command: "Show",
                         type: type,
                         name: ticker,
                         visualType: this.visualization,
-<<<<<<< HEAD
-                        data: data
-=======
                         data: obj
->>>>>>> master
                     }
                 } else {
                     throw "HTTP-Error: " + response.status;
