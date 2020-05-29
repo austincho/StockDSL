@@ -1,4 +1,4 @@
-const visualTypes = ["bar", "pie", "text", "time", "candlestick"]
+const visualTypes = ["bar", "line", "text"]
 
 class VISUALIZATION {
     parse() {

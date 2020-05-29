@@ -8,42 +8,42 @@ class Graph extends Component {
         this.state = {
             data: props.graphData,
             type : props.graphType,
-            currency : "USD",
-            exchangeRate: 1
+            currency : props.currency,
+            exchangeRate: props.exchangeRate
         }
-        let dataset = this.organizeData(this.state.data, this.state.type);
-        if (this.state.type === "line") {
-            this.createLineGraph(dataset);
-        } else if (this.state.type === "bar") {
-            this.createBarGraph(dataset);
-        }
+        debugger;
+            let dataset = this.organizeData(this.state.data, this.state.type);
+            if (this.state.type === "line") {
+                this.createLineGraph(dataset);
+            } else if (this.state.type === "bar") {
+                this.createBarGraph(dataset);
+            }
     }
 
-    init(){
-        let dataset = this.organizeData(this.state.data, this.state.type);
-        if (this.state.type === "line") {
-            this.createLineGraph(dataset);
-        } else if (this.state.type === "bar") {
-            this.createBarGraph(dataset);
-        }
-    }
+    // init(){
 
+    //     let dataset = this.organizeData(this.state.data, this.state.type);
+    //     if (this.state.type === "line") {
+    //         this.createLineGraph(dataset);
+    //     } else if (this.state.type === "bar") {
+    //         this.createBarGraph(dataset);
+    //     }
     // }
-    organizeData(data, type) {
-        let items = data[Object.keys(data)[1]];
+    
 
+    organizeData(data, type) {
         let dataset = [];
+        data.forEach( function(stock) {
+
+        let items = stock[Object.keys(stock)[1]];
         
         if (type === "line") {
         Object.keys(items).forEach(function(key){
             let dataForDay = items[key];
             dataset.push({
                 "date": d3.timeParse("%Y-%m-%d")(key),
-                "open" : parseFloat(dataForDay["1. open"]),
                 "high" : parseFloat(dataForDay["2. high"]),
-                "low" : parseFloat(dataForDay["3. low"]),
-                "close" : parseFloat(dataForDay["4. close"]),
-                "volume" : parseFloat(dataForDay["5. volume"])
+                "close" : parseFloat(dataForDay["4. close"])
             });
         });
     } else if (type === "bar") {
@@ -53,13 +53,14 @@ class Graph extends Component {
             let dataForDay = items[key];
             dataset.push({
                 "date": key.substring(5),
-                "open" : parseFloat(dataForDay["1. open"]),
-                "high" : parseFloat(dataForDay["2. high"])
+                "high" : parseFloat(dataForDay["2. high"]),
+                "close" : parseFloat(dataForDay["4. close"])
             });
             }
             i+=1;
         });
-    } 
+    }
+})
         return dataset.reverse();
     }
 
@@ -76,7 +77,7 @@ class Graph extends Component {
 
         /* === Context chart === */
 
-        var svg = d3.select("#metric-modal")
+        var svg = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -111,15 +112,7 @@ class Graph extends Component {
             .range([ height, 0 ]);
 
             svg.append("g")
-            .call(d3.axisLeft(y));
-
-            svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x",0 - (height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Price in USD");      
+            .call(d3.axisLeft(y));    
 
             // Add the line
         svg.append("path")
@@ -184,10 +177,8 @@ class Graph extends Component {
 
     render() {
         return (
-            <div className="Graph">
-            <div id="metric-modal"></div>
-    </div>
-    );
+            <div/>
+        );
     }
 }
 
