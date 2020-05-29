@@ -1,3 +1,6 @@
+/*
+A modified version of CPSC 410's tinyHTML tokenizer.
+ */
 class Tokenizer {
     constructor() {
         this.input = "";
