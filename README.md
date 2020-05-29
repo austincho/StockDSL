@@ -10,11 +10,11 @@
 ##### StockDSL Grammar and Documentation:
 \*\*\****Language is not case-sensitive******
 
-PROGRAM ::= STATEMENT
+**PROGRAM** ::= STATEMENT
 
-STATEMENT ::= CREATE | DELETE | ADDSTOCK | REMOVESTOCK | COMPUTEINFO | SHOWINFO
+**STATEMENT** ::= CREATE | DELETE | ADDSTOCK | REMOVESTOCK | COMPUTEINFO | SHOWINFO
 
-CREATE ::= "create" ("stock" | "portfolio") ITEM
+**CREATE** ::= "create" ("stock" | "portfolio") ITEM
 
 -   Brings specified stock into existence for current session
 
@@ -22,27 +22,27 @@ CREATE ::= "create" ("stock" | "portfolio") ITEM
 
 -   Example: Creating an Apple Inc. stock
 
--   "create stock APPL"
+    -   "create stock APPL"
 
 -   Example: Creating a portfolio called "myPortfolio"
 
--   "create portfolio myPortfolio
+    -   "create portfolio myPortfolio
 
-DELETE ::= "delete" ("stock" | "portfolio") ITEM
+**DELETE** ::= "delete" ("stock" | "portfolio") ITEM
 
 -   Deletes an existing stock or portfolio from current session
 
 -   Example: Deleting an Apple Inc. stock
 
--   "delete stock APPL"
+    -   "delete stock APPL"
 
 -   Example: Deleting a portfolio called "myPortfolio"
 
--   "delete portfolio myPortfolio"
+    -   "delete portfolio myPortfolio"
 
-ITEM ::= STOCK |  PORTFOLIO  
+**ITEM** ::= STOCK |  PORTFOLIO  
 
-ADDSTOCK ::= "add" "{ " TICKER ("," TICKER)* " }"  PORTFOLIOTAG
+**ADDSTOCK** ::= "add" "{ " TICKER ("," TICKER)* " }"  PORTFOLIOTAG
 
 -   Add existing stock(s) into an existing portfolio
 
@@ -50,13 +50,13 @@ ADDSTOCK ::= "add" "{ " TICKER ("," TICKER)* " }"  PORTFOLIOTAG
 
 -   Example:  Add an Apple Inc. stock to portfolio called "myPortfolio"
 
--   "add { APPL } myPortfolio"
+    -   "add { APPL } myPortfolio"
 
 -   Example: Add an Apple Inc. and Tesla stock to portfolio called "myPortfolio"
 
--   "add { APPL, TSLA } myPortfolio"
+    -   "add { APPL, TSLA } myPortfolio"
 
-REMOVESTOCK ::= "remove" " {"  TICKER ("," TICKER)* "}"  PORTFOLIOTAG
+**REMOVESTOCK** ::= "remove" " {"  TICKER ("," TICKER)* "}"  PORTFOLIOTAG
 
 -   Remove existing stock(s) from an existing portfolio
 
@@ -64,13 +64,13 @@ REMOVESTOCK ::= "remove" " {"  TICKER ("," TICKER)* "}"  PORTFOLIOTAG
 
 -   Example:  Remove an Apple Inc. stock to portfolio called "myPortfolio"
 
--   "remove { APPL } myPortfolio"
+    -   "remove { APPL } myPortfolio"
 
 -   Example: Remove an Apple Inc. and Tesla stock to portfolio called "myPortfolio"
 
--   "remove { APPL, TSLA } myPortfolio"
+    -   "remove { APPL, TSLA } myPortfolio"
 
-COMPUTEINFO ::= "compute" COMMAND
+**COMPUTEINFO** ::= "compute" COMMAND
 
 -   Execute available commands
 
@@ -80,55 +80,55 @@ COMPUTEINFO ::= "compute" COMMAND
 
 -   Example: Converting currency type to Canadian
 
--   "compute CAD"
+    -   "compute CAD"
 
 -   Example: Compute future value of 5 Apple Inc. stocks over 12 months at an interest rate of 15%
 
--   "compute stock APPL quantity 5 months 12 interest 0.15"
+    -   "compute stock APPL quantity 5 months 12 interest 0.15"
 
-SHOWINFO := "show" ("stock" | "portfolio") ITEM "as" VISUALIZATION
+**SHOWINFO** := "show" ("stock" | "portfolio") ITEM "as" VISUALIZATION
 
 -   Displays stock or portfolio in specified visualization type
 
 -   Example: Show Apple Inc. data in a time-series graph
 
--   "show stock APPL as time"
+    -   "show stock APPL as time"
 
 -   Example: Show portfolio called "myPortfolio" in a bar graph
 
--   "show myPortfolio as bar"
+    -   "show myPortfolio as bar"
 
-VISUALIZATION := "bar" | "pie" | "text" | "time" | "candlestick"
+**VISUALIZATION** := "bar" | "pie" | "text" | "time" | "candlestick"
 
-STOCK := TICKER
+**STOCK** := TICKER
 
-TICKER ::= STRING
+**TICKER** ::= STRING
 
 -   Only valid stock ticker names
 
 -   Example: "APPL", "TSLA", etc.
 
-PORTFOLIO ::= PORTFOLIOTAG 
+**PORTFOLIO** ::= PORTFOLIOTAG 
 
-PORTFOLIOTAG ::= STRING
+**PORTFOLIOTAG** ::= STRING
 
-COMMAND ::= CURRENCYCONVERSION |  FUTUREVAL
+**COMMAND** ::= CURRENCYCONVERSION |  FUTUREVAL
 
-CURRENCYCONVERSION ::= "currency" CURRENCY
+**CURRENCYCONVERSION** ::= "currency" CURRENCY
 
-CURRENCY ::= STRING
+**CURRENCY** ::= STRING
 
 -   Only valid currency symbols
 
 -   Example: "CAD", "USD", etc.
 
-FUTUREVAL ::= ("stock" | "portfolio") (TICKER | PORTFOLIOTAG)  "quantity" QUANTITY "months" MONTHS "interest" INTERESTRATE
+**FUTUREVAL** ::= ("stock" | "portfolio") (TICKER | PORTFOLIOTAG)  "quantity" QUANTITY "months" MONTHS "interest" INTERESTRATE
 
-QUANTITY ::= INT
+**QUANTITY** ::= INT
 
-MONTHS ::= INT
+**MONTHS** ::= INT
 
-INTERESTRATE::= FLOAT
+**INTERESTRATE** ::= FLOAT
 
 -   Takes both decimal or whole value
 
