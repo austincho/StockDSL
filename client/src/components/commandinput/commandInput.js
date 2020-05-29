@@ -176,7 +176,8 @@ class CommandInput extends Component {
             graphData: null
         });
 
-        d3.selectAll("svg > *").remove();
+
+        d3.selectAll("svg").remove();
     }
 
     getTime() {
