@@ -3,13 +3,14 @@ const Descriptor = require("../src/libs/Descriptor")
 class ASTTests {
     runTests() {
         /* Pass */
-        //this.test("CREATE stock AAPL");
-        //this.test("Create stock AAPL");
+        //this.test("CREATE stock DIST");
+        //this.test("Create portfolio MyPort");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio Remove { AAPL } myportfolio Add { AAPL } myportfolio");
         //this.test("Create stock AAPL Compute stock AAPL Quantity 20 Months 12 Interest 1.1");
-        //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio Compute portfolio myportfolio Quantity 1 Months 12 Interest 1.1");
+        //this.test("Create stock AAPL Create stock DL Create portfolio myportfolio Add {AAPL,DL} myportfolio Compute portfolio myportfolio Quantity 1 Months 12 Interest 1.1");
         //this.test("Create stock AAPL Create portfolio myportfolio Add { AAPL } myportfolio Show portfolio myportfolio as PIE");
+        //this.test("Create stock AAPL Show stock AAPL as BAR");
         //this.test("Create stock AAPL Show stock AAPL as BAR");
         //this.test("Compute Currency CAD");
         //this.test("Compute Currency CAD Compute Currency GBP");
@@ -25,8 +26,13 @@ class ASTTests {
         //this.test("Create stock AAPL Create stock DIST Create portfolio myportfolio Add { AAPL, DIST } myportfolio Delete stock AAPL");
 
         /* Fail */
+        //this.test("Create portfolio p12 Create portfolio p12");
+        //this.test("CREATE stock AAPL CREATE stock AAPL");
         //this.test("Create portfolio myportfolio Add { AAPL } myportfolio");
         //this.test("Create portfolio myPortfolio \n Create portfolio myPortfolio");
+        //this.test("Create portfolio myPortfolio Create stock AAPL Remove { AAPL } myPortfolio");
+        //this.test("Create portfolio myPortfolio Delete portfolio myPortfolio Create portfolio myPortfolio");
+        //this.test("Create stock DL Delete stock DL Create stock DL");
 
         /* Not Implemented */
 

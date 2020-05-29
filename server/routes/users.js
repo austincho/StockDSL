@@ -24,17 +24,24 @@ router.get('/:userid/portfolio', function(req, res, next){
           var stock = new Object()
           stock.id = e
           //implement get value from stocksymbol table function
-          stock.value = "002"  
-          stocks.push(stock)
+          //stock.value = getStockValueData(stock.id)
+          
+          Object.keys(stockSymbolTable).forEach(function(key) {
+            if(key===stock.id){
+              stock.values = stockSymbolTable[key]
+            }
+          })
+          console.log(stock.values + "lol"); 
+          stocks.push(stock); 
         })
         toret.stocks = stocks
         
           portfolios.push(toret)
         })
-        console.log(portfolios.length)
+        
+        console.log(portfolios)
         if(portfolios.length>0){
           res.statusCode = 200
-          console.log("aok")
           res.json(portfolios); 
         }
         else {
@@ -63,6 +70,12 @@ function getPortfolioData(id) {
   })
   return retValue
 };
+
+function getStocksData(stocks){
+  
+}
+
+
 router.get('/', function(req, res, next) {
   // Comment out this line:
   //res.send('respond with a resource');

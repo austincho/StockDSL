@@ -29,8 +29,14 @@ class CommandInput extends Component {
             exchangeRate: 1.00,
             futureVal: null,
             graphData: null,
-            graphType: 'line'
+            graphType: 'line',
+            portfolioData: {
+                stocks: [], 
+                id: "user1", 
+                multiplier: 1
+            }
         }
+        this.columRef = React.createRef()
     }
 
     updateInput(key, value) {
@@ -43,6 +49,10 @@ class CommandInput extends Component {
         this.addCommand();
         this.callTokenizer();
     }
+
+    
+
+
 
     callTokenizer() {
         fetch('/tokenize', {
@@ -70,7 +80,7 @@ class CommandInput extends Component {
             });
     }
 
-    handleOutput(output) {
+    async handleOutput(output) {
         if (Array.isArray(output) && output.length>0) {
             for (let value of output) {
                 if (value.hasOwnProperty('error')) {
@@ -88,15 +98,66 @@ class CommandInput extends Component {
                     this.setState({graphType: output.visualType});
                     this.setState({graphData: output[0].data});
                 } else if (value.hasOwnProperty('comand') && (value.command === 'Delete' || value.command === 'Remove')) {
-                    // TODO: call method that gets portfolio/stock info so data reloads
+                    this.getPortfolioInfo();
                 }
             }
+            let state = this.state
+            this.setState({state})
         } else {
             this.setState({showError: true, errorText: 'Error receiving output'});
             console.log(this.state.errorText);
         }
     }
 
+    getPortfolioInfo(){
+        var stocklist = []
+        fetch('http://localhost:3000/users/' + "user1" + '/portfolio', {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                'Accept': 'application/json',
+            }
+        })
+            .then(res => {
+                console.log("RESULT", res);
+                if(res.status !== 200){
+                    console.log("Not okay commandinput")
+                    return null;
+                }
+                else {
+                    return res.json();
+                }
+
+            })
+            .then(res2 => {
+                console.log(res2)
+
+                if(res2 === null){
+                    //handle no stocks found
+                    console.log("no stocks found");
+                    return;
+                }
+                res2 = res2[0]
+                for(let i = 0; i<res2.stocks.length; i++){
+                    stocklist.push(res2.stocks[i])
+                }
+                console.log('STOCKLIST: ', stocklist);
+                this.setState({portfolioData: {
+                        stocks: stocklist,
+                        id: "user1",
+                        multiplier: this.state.exchangeRate
+                    }});
+                // this.setState({stocks: stocklist})
+            }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
+    }
+
+    componentDidMount(){
+        this.getPortfolioInfo();
+    }
     addCommand() {
         const command = this.state.newCommand.slice();
         // copy current list of commands
@@ -170,7 +231,7 @@ class CommandInput extends Component {
                             <CommandList commandsSent={this.state.commandList}/>
                         </Grid>
                     </Grid>
-                    <Column exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
+                    <Column portfolioData={this.state.portfolioData} exchangeRate={this.state.exchangeRate} currency={this.state.currency}/>
                 </Grid>
             </div>
         );

@@ -39,13 +39,35 @@ class SHOWINFO {
                 const response = await fetch(url);
                 if (response.ok){
                     const json = await response.json();
+<<<<<<< HEAD
                     let data = [json];
+=======
+                    if ("Error Message" in json) {
+                        throw "Stock cannot be found: " + ticker;
+                    }
+                    let obj = {"Time Series (Daily)": {}}
+                    for (const date in json["Time Series (Daily)"]) {
+                        if (date in obj["Time Series (Daily)"]) {
+                            obj["Time Series (Daily)"][date]["1. open"] += parseFloat(json["Time Series (Daily)"][date]["1. open"])
+                            obj["Time Series (Daily)"][date]["2. high"] += parseFloat(json["Time Series (Daily)"][date]["2. high"])
+                            obj["Time Series (Daily)"][date]["4. close"] += parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                        } else {
+                            obj["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
+                            obj["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
+                            obj["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                        }
+                    }
+>>>>>>> master
                     return {
                         command: "Show",
                         type: type,
                         name: ticker,
                         visualType: this.visualization,
+<<<<<<< HEAD
                         data: data
+=======
+                        data: obj
+>>>>>>> master
                     }
                 } else {
                     throw "HTTP-Error: " + response.status;
@@ -57,10 +79,10 @@ class SHOWINFO {
         else if (typeof this.portfolio !== 'undefined') {
             const name = this.portfolio.getName();
             if (!(name in portfolioSymbolTable)) {
-                throw "Cannot visualize nonexistent portfolio: " + name;
+                throw "Portfolio does not exist: " + name;
             }
             else {
-                let data = [];
+                let obj = {"Time Series (Daily)": {}}
                 for (const ticker of portfolioSymbolTable[name]) {
                     const url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=ILUT5RWQ13K9DYW1"
                     const response = await fetch(url);
@@ -69,18 +91,30 @@ class SHOWINFO {
                         if ("Error Message" in json) {
                             throw "Stock cannot be found: " + ticker;
                         }
-                        data.push(json);
+
+                        for (const date in json["Time Series (Daily)"]) {
+                            if (date in obj["Time Series (Daily)"]) {
+                                obj["Time Series (Daily)"][date]["1. open"] += parseFloat(json["Time Series (Daily)"][date]["1. open"])
+                                obj["Time Series (Daily)"][date]["2. high"] += parseFloat(json["Time Series (Daily)"][date]["2. high"])
+                                obj["Time Series (Daily)"][date]["4. close"] += parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                            } else {
+                                obj["Time Series (Daily)"][date] = {"1. open": parseFloat(json["Time Series (Daily)"][date]["1. open"])}
+                                obj["Time Series (Daily)"][date]["2. high"] = parseFloat(json["Time Series (Daily)"][date]["2. high"])
+                                obj["Time Series (Daily)"][date]["4. close"] = parseFloat(json["Time Series (Daily)"][date]["4. close"])
+                            }
+                        }
                     } else {
                         throw "HTTP-Error: " + response.status;
                     }
                 }
+                console.log(obj)
                 const type = "Portfolio"
                 return {
                     command: "Show",
                     type: type,
                     name: name,
                     visualType: this.visualization,
-                    data: data
+                    data: obj
                 }
             }
         }

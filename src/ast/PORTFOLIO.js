@@ -3,14 +3,18 @@ class PORTFOLIO {
         this.portfolioTag = tokenizer.getAndCheckNextRegExp(/[a-z]+/ig);
     }
 
-    evaluate() {
+    async evaluate() {
         if (typeof this.portfolioTag !== 'undefined') {
             if (!(this.portfolioTag in portfolioSymbolTable)) {
                 portfolioSymbolTable[this.portfolioTag] = [];
-                return {command: "Create", type: "Portfolio", name: this.portfolioTag}
+                return {
+                    command: "Create",
+                    type: "Portfolio",
+                    name: this.portfolioTag
+                }
             }
             else {
-                throw "Portfolio already exists";
+                throw "Portfolio already exists: " + this.portfolioTag;
             }
         }
         else {

@@ -5,16 +5,19 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Portfolio from './portfolio/portfolio'
-
+import StockContainer from './stockcontainer/stockcontainer'
 class Column extends Component {
 
     constructor(props) {
         super(props);
         this.state={
             toCurrency: '', 
-            exchangeRate: props.exchangeRate
+            exchangeRate: props.exchangeRate,
+            portfolioData: props.portfolioData
         }
     }
+
+   
 
     render() {
         console.log(this.state)
@@ -38,12 +41,22 @@ class Column extends Component {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                    <Portfolio id="user1" multiplier={this.state.exchangeRate}/>
+                                    <Portfolio stocks={this.props.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
                         </Card>
                     </Grid>
                 </Grid>
+                <Grid item xs={12}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    Stocks
+                                    <StockContainer stocks={this.state.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
             </Grid>
         );
     }

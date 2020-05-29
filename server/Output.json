@@ -1,6 +1,7 @@
 {
 	"results": [
 		{
+<<<<<<< HEAD
 			"command": "Show",
 			"type": "Stock",
 			"name": "aapl",
@@ -718,6 +719,14 @@
 					}
 				}
 			]
+=======
+			"command": "Add",
+			"stocks": [
+				"AAPL",
+				"DIS"
+			],
+			"portfolio": "myportfolio"
+>>>>>>> master
 		}
 	]
 }

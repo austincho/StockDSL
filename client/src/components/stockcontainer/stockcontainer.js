@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import Stock from '../stocks/Stock';
-import './portfolio.css';
+import './stockcontainer.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '@material-ui/core/Card';
 
-class Portfolio extends Component { 
+class StockContainer extends Component { 
     constructor(props){
         super(props)
         this.state = {
@@ -17,6 +17,53 @@ class Portfolio extends Component {
             id: props.id, 
             multiplier: props.multiplier
         }    
+    }
+    async componentDidMount() {
+        await this.getStockInfo()
+        let state = this.state
+        this.setState({state})
+    }
+
+
+    getStockInfo(){
+        let self = this
+        var stocklist = []
+        fetch('http://localhost:3000/stocks/', {
+            method: 'get', 
+            headers: {
+                "Content-Type": "application/json", 
+                'Accept': 'application/json',
+            }
+        })
+        .then(res => {
+            console.log("RESULT", res); 
+            if(res.status !== 200){
+                console.log("Not okay")
+                return null; 
+            }
+            else {
+                return res.json(); 
+            }
+            
+        })
+        .then(res2 => {
+            console.log(res2)
+            if(res2 === null){
+                //handle no stocks found
+                console.log("no stocks foudn"); 
+                return; 
+            } 
+            res2 = res2
+            for(let i = 0; i<res2.length; i++){
+                stocklist.push(res2[i])
+            }
+            console.log(stocklist)
+            self.setState({stocks: stocklist})
+        }).catch(e => {
+            console.log('error: ', e);
+            this.setState({showError: true, errorText: 'error'});
+            console.log(this.state.errorText);
+        });
     }
 
     render() {
@@ -32,7 +79,7 @@ class Portfolio extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.stocks.map((value) => (
+                            {this.state.stocks.map((value) => (
                                 <TableRow key={value.id}>
                                     <TableCell>{value.id}</TableCell>
                                     <TableCell>{value.values * this.state.multiplier}</TableCell>
@@ -47,4 +94,4 @@ class Portfolio extends Component {
     }
 
 }
-export default Portfolio
+export default StockContainer

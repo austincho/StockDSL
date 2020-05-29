@@ -22,7 +22,7 @@ class DELETE {
         if (typeof this.stock !== 'undefined') {
             const ticker = this.stock.getName();
             if (!(ticker in stockSymbolTable)) {
-                throw "Cannot delete nonexistent ticker: " + ticker;
+                throw "Ticker does not exist: " + ticker;
             }
             else {
                 // Remove stock from all portfolios
@@ -46,10 +46,10 @@ class DELETE {
         else if (typeof this.portfolio !== 'undefined') {
             const name = this.portfolio.getName();
             if (!(name in portfolioSymbolTable)) {
-                throw "Cannot delete nonexistent portfolio: " + name;
+                throw "Portfolio does not exist: " + name;
             }
             else {
-                portfolioSymbolTable.delete(name);
+                delete portfolioSymbolTable[name];
                 const type = "Portfolio"
                 return {
                     command: "Delete",

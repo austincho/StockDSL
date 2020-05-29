@@ -16,7 +16,7 @@ class CURRENCY {
             const fromCurrency = currentCurrency;
             const url = "https://api.exchangeratesapi.io/latest?base=" + currentCurrency + "&symbols=" + toCurrency;
             try {
-                let currencyResponse = await axios.get(url);
+                const currencyResponse = await axios.get(url);
 
                 currentCurrency = toCurrency
 
