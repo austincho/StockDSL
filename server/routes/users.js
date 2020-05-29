@@ -38,7 +38,7 @@ router.get('/:userid/portfolio', function(req, res, next){
           portfolios.push(toret)
         })
         
-        console.log(portfolios.length)
+        console.log(portfolios)
         if(portfolios.length>0){
           res.statusCode = 200
           res.json(portfolios); 
