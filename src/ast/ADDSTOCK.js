@@ -3,17 +3,17 @@ class ADDSTOCK {
 
     parse() {
         this.tickers = [];
-        this.portfolio = null;
 
         tokenizer.getAndCheckNext("add");
         tokenizer.getAndCheckNext("{")
 
-        while (!tokenizer.checkToken("}")) {
+        this.tickers.push(tokenizer.getNext());
+
+        while (tokenizer.checkToken(",")) {
+            tokenizer.getAndCheckNext(",");
             this.tickers.push(tokenizer.getNext());
-            if (tokenizer.checkToken(",")) {
-                tokenizer.getAndCheckNext(",");
-            }
         }
+
         tokenizer.getAndCheckNext("}")
         this.portfolio = tokenizer.getNext();
     }
@@ -21,15 +21,18 @@ class ADDSTOCK {
     evaluate() {
         if (typeof this.portfolio !== 'undefined') {
             if (!(this.portfolio in portfolioSymbolTable)) {
-                throw "Portfolio does not exist"
+                throw "Portfolio does not exist: " + this.portfolio
             }
             let portfolioTickers = portfolioSymbolTable[this.portfolio];
+            if (this.tickers.length === 0) {
+                throw "Not adding anything to portfolio: " + this.portfolio
+            }
             for (const ticker of this.tickers) {
                 if (!(ticker in stockSymbolTable)) {
-                    throw "Stock does not exist"
+                    throw "Stock does not exist: " + ticker
                 }
                 else if (portfolioTickers.includes(ticker)) {
-                    throw "Portfolio already contains value"
+                    throw this.portfolio + " already contains stock: " + ticker
                 }
                 else {
                     portfolioTickers.push(ticker);
