@@ -90,33 +90,13 @@ class FUTUREVAL {
         }
     }
 
-    computeFutureValue(name, type, quantity, months, rate) {
-        // mock stock data
-        const tickers = [
-            {
-                "ticker": "AAPL",
-                "price": 300.12
-            },
-            {
-                "ticker": "TSLA",
-                "price": 823.05
-            },
-            {
-                "ticker": "MSFT",
-                "price": 183.51
-            }
-        ];
-
-        //TODO: send request to an API that gets current stock price of ticker
-
-        const stock = tickers.find(x => x.ticker === name);
-        if (stock) {
-            let value = quantity*stock.price * (1 + (rate*.01*(months/12)));
-            return Math.floor(value * 100) / 100;
+    computeFutureValue(ticker, type, quantity, months, rate) {
+        if (!(ticker in stockSymbolTable)) {
+            throw "Ticker does not exist: " + ticker;
         }
-        else {
-            throw "Stock not found: " + name
-        }
+        const value = stockSymbolTable[ticker];
+        const calculation = quantity*value * (1 + (rate*.01*(months/12)));
+        return Math.floor(calculation * 100) / 100;
     }
 }
 
