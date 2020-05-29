@@ -12,9 +12,15 @@ class Column extends Component {
         super(props);
         this.state={
             toCurrency: '', 
-            exchangeRate: props.exchangeRate
+            exchangeRate: props.exchangeRate,
+            portfolioData: {
+                stocks: [], 
+                id: "user1", 
+                multiplier: 1
+            }
         }
     }
+
 
     render() {
         console.log(this.state)
@@ -38,7 +44,7 @@ class Column extends Component {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     Portfolios
-                                    <Portfolio id="user1" multiplier={this.state.exchangeRate}/>
+                                    <Portfolio stocks={this.state.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
                         </Card>

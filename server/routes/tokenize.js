@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
     let tokenizer = new Tokenizer().getInstance();
     let descriptor = new Descriptor();
     descriptor.describe(input).then(result =>{
-        descriptor.writeToJson();
+        //descriptor.writeToJson();
         ret = result;
         res.send(ret);
     }).catch(err => {
