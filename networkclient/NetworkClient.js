@@ -3,7 +3,7 @@ class networkClient{
     
     constructor(){
         this.baseURl = "http://www.alphavantage.co/query?" 
-        this.apikey = "ILUT5RWQ13K9DYW1"
+        this.apikey = "IESTUJK60YMVL7JA"
     }
     initialize(apikey){
         this.apikey = apikey

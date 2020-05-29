@@ -53,6 +53,7 @@ class StockContainer extends Component {
                 console.log("no stocks foudn"); 
                 return; 
             } 
+            res2 = res2
             for(let i = 0; i<res2.length; i++){
                 stocklist.push(res2[i])
             }

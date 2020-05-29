@@ -148,6 +148,9 @@ class CommandInput extends Component {
         });
     }
 
+    componentDidMount(){
+        this.getPortfolioInfo();
+    }
     addCommand() {
         const command = this.state.newCommand.slice();
         // copy current list of commands

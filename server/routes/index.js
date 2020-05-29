@@ -15,9 +15,10 @@ router.get('/stocks', function(req, res, next){
   Object.keys(stockSymbolTable).forEach(function(key){
     var stock = new Object(); 
     stock.id = key; 
-    stock.values = stockSymbolTable[key].values
+    stock.values = stockSymbolTable[key]
     stocks.push(stock)
   })
+  console.log(stocks)
   res.json(stocks)
 })
 router.get('/stock/:stockid/current', async(req,res) => {
