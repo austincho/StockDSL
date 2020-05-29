@@ -55,7 +55,7 @@ class Column extends Component {
                         <Card>
                             <CardContent>
                                 <Typography variant="h5" component="h2">
-                                    Stockcks
+                                    Stocks
                                     <StockContainer stocks={this.state.portfolioData.stocks} id="user1" multiplier={this.state.exchangeRate}/>
                                 </Typography>
                             </CardContent>
