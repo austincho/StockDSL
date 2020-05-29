@@ -1,3 +1,6 @@
+Acknowledgments
+src/libs/Tokenizer.js is a modified version of CPSC 410's tinyHTML's tokenizer.
+
 # StockDSL
 ##### To run the client: 
 - cd client
