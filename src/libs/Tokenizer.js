@@ -1,6 +1,3 @@
-/*
-A modified version of CPSC 410's tinyHTML tokenizer.
- */
 class Tokenizer {
     constructor() {
         this.input = "";
@@ -17,26 +14,23 @@ class Tokenizer {
 
     tokenize() {
         let tokenizedProgram = " " + this.input.replace(/\n/g, " ") + " ";
+        // Add spaces to {,},,
         tokenizedProgram = tokenizedProgram.replace(/,/g, " , ");
         tokenizedProgram = tokenizedProgram.replace(/{/g, " { ");
         tokenizedProgram = tokenizedProgram.replace(/}/g, " } ");
 
+        // Change keywords to lowercase
         for (const str of literals) {
             const r = new RegExp(" " + str + " ","ig");
-            tokenizedProgram = tokenizedProgram.replace(r, " _" + str + "_ ");
+            tokenizedProgram = tokenizedProgram.replace(r, " " + str + " ");
         }
+        // Split at spaces
+        tokenizedProgram = tokenizedProgram.split(" ");
 
-        tokenizedProgram = tokenizedProgram.replace(/__/g, "_");
-
-        if (tokenizedProgram.length > 0 && tokenizedProgram.charAt(0) === '_') {
-            tokenizedProgram = tokenizedProgram.substring(1); // without first character
-        }
-
-        const rawTokens = tokenizedProgram.split("_");
-
-        for (const token of rawTokens) {
+        // Get values
+        for (const token of tokenizedProgram) {
             const tokenTrimmed = token.trim();
-            if (tokenTrimmed.length > 0) {
+            if (tokenTrimmed !== "") {
                 this.tokens.push(tokenTrimmed);
             }
         }
@@ -47,7 +41,7 @@ class Tokenizer {
             return this.tokens[this.currentToken];
         }
         else {
-            return "NO_MORE_TOKENS";
+            return null;
         }
     }
 
@@ -73,7 +67,7 @@ class Tokenizer {
     getAndCheckNext(str) {
         const s = this.getNext();
         if (s !== str) {
-            throw "Unexpected next token for Parsing! Expected something matching: " + str + " but got: " + s;
+            throw "Unexpected token. Expected: " + str + " but got: " + s;
         }
         return s;
     }
@@ -81,7 +75,7 @@ class Tokenizer {
     getAndCheckNextRegExp(regExp) {
         const s = this.getNext();
         if (!s.match(regExp)) {
-            throw "Unexpected next token for Parsing! Expected something matching: " + regExp + " but got: " + s;
+            throw "Unexpected token. Expected: " + regExp + " but got: " + s;
         }
         return s;
     }

@@ -13,28 +13,30 @@ class Portfolio extends Component {
     constructor(props){
         super(props)
         this.state = {
-            stocks: [],
+            stocks: props.stocks,
             id: props.id, 
             multiplier: props.multiplier
         }    
     }
     componentDidMount() {
         this.getPortfolioInfo()
+        let state = this.state
+        this.setState({state})
     }
     getPortfolioInfo(){
         let self = this
         var stocklist = []
-        fetch('/users/' + this.state.id + '/portfolio', {
+        fetch('http://localhost:3000/users/' + this.state.id + '/portfolio', {
             method: 'get', 
             headers: {
                 "Content-Type": "application/json", 
                 'Accept': 'application/json',
-
             }
         })
         .then(res => {
             console.log("RESULT", res); 
             if(res.status !== 200){
+                console.log("Not okay")
                 return null; 
             }
             else {
@@ -63,7 +65,7 @@ class Portfolio extends Component {
     }
 
     render() {
-        let stocks = this.state.stocks; 
+        console.log(this.state)
         return (
             <div>
                 <TableContainer component={Card}>
@@ -75,10 +77,10 @@ class Portfolio extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {stocks.map((value) => (
+                            {this.state.stocks.map((value) => (
                                 <TableRow key={value.id}>
                                     <TableCell>{value.id}</TableCell>
-                                    <TableCell>{value.value * this.state.multiplier}</TableCell>
+                                    <TableCell>{value.values * this.state.multiplier}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

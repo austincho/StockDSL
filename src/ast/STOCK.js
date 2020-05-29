@@ -1,30 +1,21 @@
-const fetch = require("node-fetch");
-
+const networkClient = require('../../networkclient/NetworkClient');
+client = new networkClient(); 
 class STOCK {
     parse() {
         this.ticker = tokenizer.getNext();
     }
-
+    async getStockValue(id){
+        var p =  await client.getStock( "TIME_SERIES_DAILY&", id, "60min&");
+        p = p["Time Series (Daily)"][Object.keys(p["Time Series (Daily)"])[0]]
+        let firstKey = Object.keys(p)[0];
+        return {"values": p[firstKey]}
+    }
     async evaluate() {
         if (typeof this.ticker !== 'undefined') {
             if (!(this.ticker in stockSymbolTable)) {
-                const url = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + this.ticker + "&apikey=ILUT5RWQ13K9DYW1"
-                const response = await fetch(url);
-                if (response.ok){
-                    const json = await response.json();
-                    if ("Error Message" in json ||
-                        json.bestMatches[0]["1. symbol"] !== this.ticker) {
-                        throw "Stock cannot be found: " + this.ticker;
-                    }
-                    stockSymbolTable[this.ticker] = []
-                    return {
-                        command: "Create",
-                        type: "Stock",
-                        name: this.ticker
-                    }
-                } else {
-                    throw "HTTP-Error: " + response.status;
-                }
+                const values = await this.getStockValue(this.ticker);
+                stockSymbolTable[this.ticker] = parseFloat(values.values)
+                return {command: "Create", type: "Stock", name: this.ticker, values: values.values}
             }
             else {
                 throw "Stock already exists: " + this.ticker;
