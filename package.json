@@ -13,7 +13,7 @@
     "http-errors": "^1.7.3",
     "jade": "^1.11.0",
     "morgan": "^1.10.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "react-scripts": "^3.4.1",
     "typeface-roboto": "0.0.75"
   },
